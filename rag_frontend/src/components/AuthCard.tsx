@@ -1,5 +1,16 @@
 import React, { useState } from 'react';
-import { Mail, Lock, LogIn, UserPlus, AlertCircle, Loader2, CheckCircle2 } from 'lucide-react';
+import {
+  Mail,
+  Lock,
+  LogIn,
+  UserPlus,
+  AlertCircle,
+  Loader2,
+  CheckCircle2,
+  KeyRound,
+  Shield,
+  ArrowRight,
+} from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export const AuthCard: React.FC = () => {
@@ -49,9 +60,9 @@ export const AuthCard: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto bg-vault-dark border border-vault-teal/30 rounded-3xl p-7 shadow-2xl shadow-vault-darkest/80 space-y-6">
+    <div className="w-full max-w-md mx-auto bg-black border-2 border-[#274D60] rounded-3xl p-7 shadow-[0_0_40px_rgba(39,77,96,0.25)] space-y-6">
       {/* Tab Switcher */}
-      <div className="flex bg-vault-darkest p-1 rounded-2xl border border-vault-teal/20">
+      <div className="flex bg-[#05080b] p-1.5 rounded-2xl border border-[#274D60]/60">
         <button
           type="button"
           onClick={() => {
@@ -60,8 +71,8 @@ export const AuthCard: React.FC = () => {
           }}
           className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold transition ${
             mode === 'login'
-              ? 'bg-vault-cyan text-white shadow-md shadow-vault-cyan/30'
-              : 'text-vault-blue/60 hover:text-vault-blue'
+              ? 'bg-[#274D60] text-white shadow-[0_2px_10px_rgba(39,77,96,0.5)] border border-[#366882]'
+              : 'text-[#8daec0]/60 hover:text-[#8daec0]'
           }`}
         >
           <LogIn size={15} />
@@ -75,92 +86,107 @@ export const AuthCard: React.FC = () => {
           }}
           className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold transition ${
             mode === 'register'
-              ? 'bg-vault-cyan text-white shadow-md shadow-vault-cyan/30'
-              : 'text-vault-blue/60 hover:text-vault-blue'
+              ? 'bg-[#274D60] text-white shadow-[0_2px_10px_rgba(39,77,96,0.5)] border border-[#366882]'
+              : 'text-[#8daec0]/60 hover:text-[#8daec0]'
           }`}
         >
           <UserPlus size={15} />
-          Create Account
+          Register
         </button>
       </div>
 
       <div className="text-left space-y-1">
-        <h2 className="text-xl font-bold text-white tracking-tight">
-          {mode === 'login' ? 'Welcome Back' : 'Create an Account'}
+        <h2 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+          {mode === 'login' ? (
+            <>
+              <KeyRound size={20} className="text-[#8daec0]" />
+              Welcome Back
+            </>
+          ) : (
+            <>
+              <Shield size={20} className="text-[#8daec0]" />
+              Create Account
+            </>
+          )}
         </h2>
-        <p className="text-xs text-vault-blue/70">
+        <p className="text-xs text-[#8daec0]/70">
           {mode === 'login'
-            ? 'Sign in to access your private knowledge vault.'
-            : 'Register a new account. All documents and history stay completely private.'}
+            ? 'Sign in to access your private documents and chat history.'
+            : 'Register your account. All data remains strictly isolated in your vault.'}
         </p>
       </div>
 
       {error && (
-        <div className="p-3 bg-rose-500/10 border border-rose-500/20 text-rose-300 rounded-xl text-xs flex items-center gap-2.5 text-left">
-          <AlertCircle size={16} className="shrink-0 text-rose-400" />
+        <div className="p-3 bg-red-950/40 border border-red-500/40 text-red-300 rounded-xl text-xs flex items-center gap-2.5 text-left">
+          <AlertCircle size={16} className="shrink-0 text-red-400" />
           <span>{error}</span>
         </div>
       )}
 
       {successMessage && (
-        <div className="p-3 bg-vault-teal/10 border border-vault-teal/30 text-vault-cyan rounded-xl text-xs flex items-center gap-2.5 text-left">
-          <CheckCircle2 size={16} className="shrink-0 text-vault-cyan" />
+        <div className="p-3 bg-[#274D60]/20 border border-[#274D60] text-[#8daec0] rounded-xl text-xs flex items-center gap-2.5 text-left">
+          <CheckCircle2 size={16} className="shrink-0 text-[#8daec0]" />
           <span>{successMessage}</span>
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4 text-left">
         <div>
-          <label className="block text-xs font-medium text-vault-blue/80 mb-1.5">
+          <label className="block text-xs font-medium text-[#8daec0] mb-1.5 flex items-center gap-1.5">
+            <Mail size={13} className="text-[#274D60]" />
             Email Address
           </label>
           <div className="relative">
-            <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-vault-teal/60" />
+            <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#274D60]" />
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="w-full bg-vault-darkest border border-vault-teal/30 rounded-xl pl-10 pr-3.5 py-2.5 text-sm text-slate-100 placeholder:text-vault-teal/30 focus:outline-none focus:border-vault-cyan transition"
+              className="w-full bg-black border border-[#274D60] rounded-xl pl-10 pr-3.5 py-2.5 text-sm text-white placeholder:text-[#274D60]/60 focus:outline-none focus:border-[#366882] focus:ring-1 focus:ring-[#366882] transition"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-vault-blue/80 mb-1.5">
+          <label className="block text-xs font-medium text-[#8daec0] mb-1.5 flex items-center gap-1.5">
+            <Lock size={13} className="text-[#274D60]" />
             Password
           </label>
           <div className="relative">
-            <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-vault-teal/60" />
+            <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#274D60]" />
             <input
               type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full bg-vault-darkest border border-vault-teal/30 rounded-xl pl-10 pr-3.5 py-2.5 text-sm text-slate-100 placeholder:text-vault-teal/30 focus:outline-none focus:border-vault-cyan transition"
+              className="w-full bg-black border border-[#274D60] rounded-xl pl-10 pr-3.5 py-2.5 text-sm text-white placeholder:text-[#274D60]/60 focus:outline-none focus:border-[#366882] focus:ring-1 focus:ring-[#366882] transition"
             />
           </div>
           {mode === 'register' && (
-            <p className="text-[11px] text-vault-teal/50 mt-1">Must be at least 6 characters</p>
+            <p className="text-[11px] text-[#8daec0]/60 mt-1 flex items-center gap-1">
+              <Shield size={11} className="text-[#274D60]" /> Minimum 6 characters
+            </p>
           )}
         </div>
 
         {mode === 'register' && (
           <div>
-            <label className="block text-xs font-medium text-vault-blue/80 mb-1.5">
+            <label className="block text-xs font-medium text-[#8daec0] mb-1.5 flex items-center gap-1.5">
+              <Lock size={13} className="text-[#274D60]" />
               Confirm Password
             </label>
             <div className="relative">
-              <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-vault-teal/60" />
+              <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#274D60]" />
               <input
                 type="password"
                 required
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full bg-vault-darkest border border-vault-teal/30 rounded-xl pl-10 pr-3.5 py-2.5 text-sm text-slate-100 placeholder:text-vault-teal/30 focus:outline-none focus:border-vault-cyan transition"
+                className="w-full bg-black border border-[#274D60] rounded-xl pl-10 pr-3.5 py-2.5 text-sm text-white placeholder:text-[#274D60]/60 focus:outline-none focus:border-[#366882] focus:ring-1 focus:ring-[#366882] transition"
               />
             </div>
           </div>
@@ -169,22 +195,24 @@ export const AuthCard: React.FC = () => {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full flex items-center justify-center gap-2 bg-vault-cyan hover:bg-vault-teal disabled:opacity-50 text-white py-3 px-4 rounded-xl text-sm font-semibold transition shadow-lg shadow-vault-cyan/20 mt-2"
+          className="w-full flex items-center justify-center gap-2 bg-[#274D60] hover:bg-[#366882] disabled:opacity-50 text-white py-3 px-4 rounded-xl text-sm font-semibold transition border border-[#366882] shadow-[0_4px_16px_rgba(39,77,96,0.35)] mt-3"
         >
           {isLoading ? (
             <>
-              <Loader2 size={16} className="animate-spin" />
-              {mode === 'login' ? 'Signing in...' : 'Creating account...'}
+              <Loader2 size={16} className="animate-spin text-[#8daec0]" />
+              {mode === 'login' ? 'Signing in...' : 'Registering...'}
             </>
           ) : mode === 'login' ? (
             <>
               <LogIn size={16} />
               Sign In
+              <ArrowRight size={14} className="ml-1 opacity-70" />
             </>
           ) : (
             <>
               <UserPlus size={16} />
               Create Account
+              <ArrowRight size={14} className="ml-1 opacity-70" />
             </>
           )}
         </button>

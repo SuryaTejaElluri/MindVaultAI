@@ -4,33 +4,33 @@
 
 @layer base {
   body {
-    @apply bg-vault-darkest text-slate-100 antialiased;
-    selection-color: #0C969C;
+    @apply bg-black text-slate-100 antialiased;
+    background-color: #000000;
+    selection-color: #ffffff;
     -webkit-font-smoothing: antialiased;
   }
 }
 
 /* Custom scrollbars */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #000000;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(10, 112, 117, 0.35);
+  background: #274D60;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(12, 150, 156, 0.6);
+  background: #366882;
 }
 
 ::selection {
-  background: #0C969C;
-  color: #fff;
+  background: #274D60;
+  color: #ffffff;
 }
-
