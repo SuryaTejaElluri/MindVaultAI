@@ -19,3 +19,4 @@ python-dotenv>=1.0.1
 python-multipart>=0.0.9
 requests>=2.32.0
 pillow>=10.4.0
+

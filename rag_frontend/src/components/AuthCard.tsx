@@ -49,9 +49,9 @@ export const AuthCard: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto bg-slate-900 border border-slate-800 rounded-3xl p-7 shadow-2xl space-y-6">
+    <div className="w-full max-w-md mx-auto bg-vault-dark border border-vault-teal/30 rounded-3xl p-7 shadow-2xl shadow-vault-darkest/80 space-y-6">
       {/* Tab Switcher */}
-      <div className="flex bg-slate-950 p-1 rounded-2xl border border-slate-800/80">
+      <div className="flex bg-vault-darkest p-1 rounded-2xl border border-vault-teal/20">
         <button
           type="button"
           onClick={() => {
@@ -60,8 +60,8 @@ export const AuthCard: React.FC = () => {
           }}
           className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold transition ${
             mode === 'login'
-              ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
-              : 'text-slate-400 hover:text-slate-200'
+              ? 'bg-vault-cyan text-white shadow-md shadow-vault-cyan/30'
+              : 'text-vault-blue/60 hover:text-vault-blue'
           }`}
         >
           <LogIn size={15} />
@@ -75,8 +75,8 @@ export const AuthCard: React.FC = () => {
           }}
           className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold transition ${
             mode === 'register'
-              ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
-              : 'text-slate-400 hover:text-slate-200'
+              ? 'bg-vault-cyan text-white shadow-md shadow-vault-cyan/30'
+              : 'text-vault-blue/60 hover:text-vault-blue'
           }`}
         >
           <UserPlus size={15} />
@@ -88,10 +88,10 @@ export const AuthCard: React.FC = () => {
         <h2 className="text-xl font-bold text-white tracking-tight">
           {mode === 'login' ? 'Welcome Back' : 'Create an Account'}
         </h2>
-        <p className="text-xs text-slate-400">
+        <p className="text-xs text-vault-blue/70">
           {mode === 'login'
-            ? 'Sign in with your email and password to access your isolated RAG workspace.'
-            : 'Register a new account with your email. All your documents and chat history stay completely private.'}
+            ? 'Sign in to access your private knowledge vault.'
+            : 'Register a new account. All documents and history stay completely private.'}
         </p>
       </div>
 
@@ -103,64 +103,64 @@ export const AuthCard: React.FC = () => {
       )}
 
       {successMessage && (
-        <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 rounded-xl text-xs flex items-center gap-2.5 text-left">
-          <CheckCircle2 size={16} className="shrink-0 text-emerald-400" />
+        <div className="p-3 bg-vault-teal/10 border border-vault-teal/30 text-vault-cyan rounded-xl text-xs flex items-center gap-2.5 text-left">
+          <CheckCircle2 size={16} className="shrink-0 text-vault-cyan" />
           <span>{successMessage}</span>
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4 text-left">
         <div>
-          <label className="block text-xs font-medium text-slate-300 mb-1.5">
+          <label className="block text-xs font-medium text-vault-blue/80 mb-1.5">
             Email Address
           </label>
           <div className="relative">
-            <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+            <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-vault-teal/60" />
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-3.5 py-2.5 text-sm text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-indigo-500 transition"
+              className="w-full bg-vault-darkest border border-vault-teal/30 rounded-xl pl-10 pr-3.5 py-2.5 text-sm text-slate-100 placeholder:text-vault-teal/30 focus:outline-none focus:border-vault-cyan transition"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-slate-300 mb-1.5">
+          <label className="block text-xs font-medium text-vault-blue/80 mb-1.5">
             Password
           </label>
           <div className="relative">
-            <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+            <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-vault-teal/60" />
             <input
               type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-3.5 py-2.5 text-sm text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-indigo-500 transition"
+              className="w-full bg-vault-darkest border border-vault-teal/30 rounded-xl pl-10 pr-3.5 py-2.5 text-sm text-slate-100 placeholder:text-vault-teal/30 focus:outline-none focus:border-vault-cyan transition"
             />
           </div>
           {mode === 'register' && (
-            <p className="text-[11px] text-slate-500 mt-1">Must be at least 6 characters</p>
+            <p className="text-[11px] text-vault-teal/50 mt-1">Must be at least 6 characters</p>
           )}
         </div>
 
         {mode === 'register' && (
           <div>
-            <label className="block text-xs font-medium text-slate-300 mb-1.5">
+            <label className="block text-xs font-medium text-vault-blue/80 mb-1.5">
               Confirm Password
             </label>
             <div className="relative">
-              <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+              <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-vault-teal/60" />
               <input
                 type="password"
                 required
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-3.5 py-2.5 text-sm text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-indigo-500 transition"
+                className="w-full bg-vault-darkest border border-vault-teal/30 rounded-xl pl-10 pr-3.5 py-2.5 text-sm text-slate-100 placeholder:text-vault-teal/30 focus:outline-none focus:border-vault-cyan transition"
               />
             </div>
           </div>
@@ -169,7 +169,7 @@ export const AuthCard: React.FC = () => {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white py-3 px-4 rounded-xl text-sm font-semibold transition shadow-lg shadow-indigo-600/25 mt-2"
+          className="w-full flex items-center justify-center gap-2 bg-vault-cyan hover:bg-vault-teal disabled:opacity-50 text-white py-3 px-4 rounded-xl text-sm font-semibold transition shadow-lg shadow-vault-cyan/20 mt-2"
         >
           {isLoading ? (
             <>
@@ -192,4 +192,3 @@ export const AuthCard: React.FC = () => {
     </div>
   );
 };
-
