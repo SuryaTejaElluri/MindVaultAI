@@ -23,34 +23,34 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
 
   return (
     <>
-      <header className="border-b border-[#274D60] bg-black/95 backdrop-blur-md sticky top-0 z-40">
+      <header className="border-b border-[#413B61] bg-[#03122F]/95 backdrop-blur-md sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           {/* Logo & Platform Name */}
           <div className="flex items-center gap-8">
             <div className="flex items-center gap-3">
-              <div className="h-9 w-9 rounded-xl bg-black border-2 border-[#274D60] flex items-center justify-center shadow-[0_0_15px_rgba(39,77,96,0.4)]">
-                <Brain className="text-[#8daec0]" size={18} />
+              <div className="h-9 w-9 rounded-xl bg-[#19305C] border-2 border-[#413B61] flex items-center justify-center shadow-md">
+                <Brain className="text-[#F1916D]" size={18} />
               </div>
               <div className="flex items-center gap-2">
                 <span className="font-bold text-base tracking-tight text-white flex items-center gap-1">
-                  MindVault<span className="text-[#8daec0]">AI</span>
+                  MindVault<span className="text-[#F1916D]">AI</span>
                 </span>
-                <span className="hidden sm:inline-flex items-center gap-1 text-[10px] font-semibold tracking-wider bg-black text-[#8daec0] px-2 py-0.5 rounded-full border border-[#274D60]">
-                  <Shield size={10} />
-                  Vault Secure
+                <span className="hidden sm:inline-flex items-center gap-1 text-[10px] font-semibold tracking-wider bg-[#19305C] text-[#AE7DAC] px-2 py-0.5 rounded-full border border-[#413B61]">
+                  <Shield size={10} className="text-[#F1916D]" />
+                  Encrypted Vault
                 </span>
               </div>
             </div>
 
             {/* Navigation Tabs */}
             {isAuthenticated && (
-              <nav className="hidden sm:flex items-center gap-1.5 bg-black p-1 rounded-xl border border-[#274D60]">
+              <nav className="hidden sm:flex items-center gap-1.5 bg-[#19305C] p-1 rounded-xl border border-[#413B61]">
                 <button
                   onClick={() => setActiveTab('chat')}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium transition ${
+                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition ${
                     activeTab === 'chat'
-                      ? 'bg-[#274D60] text-white shadow-sm border border-[#366882]'
-                      : 'text-[#8daec0]/70 hover:text-white hover:bg-[#274D60]/20'
+                      ? 'bg-[#F1916D] text-[#03122F] shadow-sm'
+                      : 'text-[#AE7DAC] hover:text-[#F3DADF] hover:bg-[#413B61]/40'
                   }`}
                 >
                   <MessageSquare size={14} />
@@ -58,10 +58,10 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                 </button>
                 <button
                   onClick={() => setActiveTab('documents')}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium transition ${
+                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition ${
                     activeTab === 'documents'
-                      ? 'bg-[#274D60] text-white shadow-sm border border-[#366882]'
-                      : 'text-[#8daec0]/70 hover:text-white hover:bg-[#274D60]/20'
+                      ? 'bg-[#F1916D] text-[#03122F] shadow-sm'
+                      : 'text-[#AE7DAC] hover:text-[#F3DADF] hover:bg-[#413B61]/40'
                   }`}
                 >
                   <Files size={14} />
@@ -76,23 +76,23 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
             <button
               onClick={() => setIsConfigOpen(true)}
               title="Settings & Configuration"
-              className="p-2 text-[#8daec0] hover:text-white hover:bg-[#274D60]/30 rounded-xl border border-[#274D60]/60 hover:border-[#274D60] transition"
+              className="p-2 text-[#AE7DAC] hover:text-[#F1916D] hover:bg-[#19305C] rounded-xl border border-[#413B61] transition"
             >
               <Settings size={17} />
             </button>
 
             {isAuthenticated && (
-              <div className="flex items-center gap-3 pl-2 border-l border-[#274D60]">
+              <div className="flex items-center gap-3 pl-2 border-l border-[#413B61]">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-[#8daec0] border-2 border-[#274D60] font-semibold text-xs uppercase shadow-sm">
+                  <div className="w-8 h-8 rounded-full bg-[#19305C] flex items-center justify-center text-[#F1916D] border-2 border-[#413B61] font-bold text-xs uppercase shadow-sm">
                     {user?.email ? user.email.charAt(0) : <UserIcon size={14} />}
                   </div>
                   <div className="hidden md:block text-left">
-                    <p className="text-xs font-medium text-white leading-tight">
+                    <p className="text-xs font-medium text-[#F3DADF] leading-tight">
                       {user?.email}
                     </p>
-                    <p className="text-[10px] text-[#8daec0]/60 flex items-center gap-1">
-                      <Sparkles size={9} className="text-[#8daec0]" /> Active Session
+                    <p className="text-[10px] text-[#AE7DAC] flex items-center gap-1">
+                      <Sparkles size={9} className="text-[#F1916D]" /> Active Session
                     </p>
                   </div>
                 </div>
@@ -100,7 +100,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                 <button
                   onClick={logout}
                   title="Sign Out"
-                  className="flex items-center gap-1.5 text-xs text-[#8daec0] hover:text-red-400 hover:bg-red-950/20 px-2.5 py-1.5 rounded-xl border border-transparent hover:border-red-900/40 transition"
+                  className="flex items-center gap-1.5 text-xs text-[#AE7DAC] hover:text-[#F1916D] hover:bg-red-950/20 px-2.5 py-1.5 rounded-xl border border-transparent hover:border-[#413B61] transition"
                 >
                   <LogOut size={15} />
                   <span className="hidden sm:inline">Sign Out</span>

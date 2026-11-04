@@ -4,9 +4,8 @@
 
 @layer base {
   body {
-    @apply bg-black text-slate-100 antialiased;
-    background-color: #000000;
-    selection-color: #ffffff;
+    @apply bg-vault-midnight text-vault-blush antialiased;
+    background-color: #03122F;
     -webkit-font-smoothing: antialiased;
   }
 }
@@ -18,19 +17,19 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #000000;
+  background: #03122F;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #274D60;
+  background: #413B61;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #366882;
+  background: #AE7DAC;
 }
 
 ::selection {
-  background: #274D60;
-  color: #ffffff;
+  background: #F1916D;
+  color: #03122F;
 }

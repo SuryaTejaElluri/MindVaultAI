@@ -17,7 +17,6 @@ import {
   HelpCircle,
   FileSearch,
   ShieldCheck,
-  Check,
 } from 'lucide-react';
 import {
   fetchChatSessions,
@@ -168,18 +167,18 @@ export const ChatInterface: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 h-[calc(100vh-4.5rem)] flex gap-6">
       {/* Sessions Sidebar */}
-      <aside className="w-72 bg-black border-2 border-[#274D60] rounded-2xl flex flex-col overflow-hidden shrink-0 shadow-[0_0_25px_rgba(39,77,96,0.2)] hidden md:flex">
+      <aside className="w-72 bg-[#19305C] border-2 border-[#413B61] rounded-2xl flex flex-col overflow-hidden shrink-0 shadow-xl hidden md:flex">
         {/* Sidebar Header */}
-        <div className="p-4 border-b border-[#274D60] flex items-center justify-between bg-black">
+        <div className="p-4 border-b border-[#413B61] flex items-center justify-between bg-[#19305C]">
           <div className="flex items-center gap-2">
-            <MessageSquare size={15} className="text-[#8daec0]" />
-            <span className="text-xs font-semibold text-[#8daec0] uppercase tracking-wider">
+            <MessageSquare size={15} className="text-[#F1916D]" />
+            <span className="text-xs font-semibold text-[#F3DADF] uppercase tracking-wider">
               Conversations
             </span>
           </div>
           <button
             onClick={handleNewChat}
-            className="flex items-center gap-1.5 bg-[#274D60] hover:bg-[#366882] text-white text-xs font-medium px-3 py-1.5 rounded-xl border border-[#366882] transition shadow-sm"
+            className="flex items-center gap-1.5 bg-[#F1916D] hover:bg-[#F1916D]/90 text-[#03122F] text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-sm"
           >
             <Plus size={14} />
             <span>New Chat</span>
@@ -187,16 +186,16 @@ export const ChatInterface: React.FC = () => {
         </div>
 
         {/* Sessions List */}
-        <div className="flex-1 overflow-y-auto p-2 space-y-1 bg-black">
+        <div className="flex-1 overflow-y-auto p-2 space-y-1 bg-[#19305C]">
           {loadingSessions ? (
-            <div className="p-6 text-center text-xs text-[#8daec0]/50 flex items-center justify-center gap-2">
-              <Sparkles size={14} className="animate-spin text-[#8daec0]" />
+            <div className="p-6 text-center text-xs text-[#AE7DAC] flex items-center justify-center gap-2">
+              <Sparkles size={14} className="animate-spin text-[#F1916D]" />
               <span>Loading history...</span>
             </div>
           ) : sessions.length === 0 ? (
-            <div className="p-8 text-center text-[#8daec0]/50">
-              <MessageSquare size={26} className="mx-auto text-[#274D60] mb-2" />
-              <p className="text-xs">No chat history</p>
+            <div className="p-8 text-center text-[#AE7DAC]">
+              <MessageSquare size={26} className="mx-auto text-[#413B61] mb-2" />
+              <p className="text-xs">No previous chats</p>
             </div>
           ) : (
             sessions.map((sess) => {
@@ -207,17 +206,17 @@ export const ChatInterface: React.FC = () => {
                   onClick={() => selectSession(sess.id)}
                   className={`group flex items-center justify-between px-3 py-2.5 rounded-xl text-xs cursor-pointer transition ${
                     isActive
-                      ? 'bg-[#274D60] text-white font-medium border border-[#366882] shadow-sm'
-                      : 'text-[#8daec0]/70 hover:bg-[#274D60]/20 hover:text-white border border-transparent'
+                      ? 'bg-[#F1916D] text-[#03122F] font-bold shadow-sm'
+                      : 'text-[#AE7DAC] hover:bg-[#413B61]/50 hover:text-[#F3DADF]'
                   }`}
                 >
                   <div className="flex items-center gap-2.5 truncate">
-                    <MessageSquare size={14} className={isActive ? 'text-white' : 'text-[#8daec0]/60'} />
+                    <MessageSquare size={14} className={isActive ? 'text-[#03122F]' : 'text-[#AE7DAC]'} />
                     <span className="truncate">{sess.title}</span>
                   </div>
                   <button
                     onClick={(e) => handleDeleteSession(sess.id, e)}
-                    className="opacity-0 group-hover:opacity-100 p-1 text-[#8daec0] hover:text-red-400 transition"
+                    className="opacity-0 group-hover:opacity-100 p-1 text-[#03122F]/70 hover:text-red-700 transition"
                     title="Delete Chat"
                   >
                     <Trash2 size={13} />
@@ -230,34 +229,34 @@ export const ChatInterface: React.FC = () => {
       </aside>
 
       {/* Main Chat Area */}
-      <main className="flex-1 bg-black border-2 border-[#274D60] rounded-2xl flex flex-col overflow-hidden shadow-[0_0_30px_rgba(39,77,96,0.2)]">
+      <main className="flex-1 bg-[#03122F] border-2 border-[#413B61] rounded-2xl flex flex-col overflow-hidden shadow-2xl">
         {/* Chat Header Bar */}
-        <div className="px-6 py-3.5 border-b border-[#274D60] flex items-center justify-between bg-black">
+        <div className="px-6 py-3.5 border-b border-[#413B61] flex items-center justify-between bg-[#19305C]">
           <div className="flex items-center gap-2.5">
-            <div className="p-1 rounded-lg bg-[#274D60]/30 border border-[#274D60]">
-              <Brain size={16} className="text-[#8daec0]" />
+            <div className="p-1 rounded-lg bg-[#03122F] border border-[#413B61]">
+              <Brain size={16} className="text-[#F1916D]" />
             </div>
             <h2 className="text-sm font-semibold text-white">{activeSessionTitle}</h2>
           </div>
-          <div className="flex items-center gap-1.5 text-xs text-[#8daec0]">
-            <ShieldCheck size={14} className="text-[#8daec0]" />
-            <span className="text-[11px]">Strict Vault Isolation</span>
+          <div className="flex items-center gap-1.5 text-xs text-[#AE7DAC]">
+            <ShieldCheck size={14} className="text-[#F1916D]" />
+            <span className="text-[11px]">Vault Grounded Citations</span>
           </div>
         </div>
 
         {/* Message Stream */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-black">
+        <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[#03122F]">
           {messages.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center p-8">
-              <div className="p-4 bg-black border-2 border-[#274D60] text-[#8daec0] rounded-2xl mb-4 shadow-[0_0_20px_rgba(39,77,96,0.3)]">
+              <div className="p-4 bg-[#19305C] border-2 border-[#413B61] text-[#F1916D] rounded-2xl mb-4 shadow-[0_0_30px_rgba(241,145,109,0.2)]">
                 <Brain size={36} />
               </div>
               <h3 className="text-base font-semibold text-white mb-1 flex items-center gap-2">
-                <Sparkles size={16} className="text-[#8daec0]" />
-                Ask Questions Grounded In Your Documents
+                <Sparkles size={16} className="text-[#F1916D]" />
+                Ask Grounded Questions
               </h3>
-              <p className="text-xs text-[#8daec0]/70 max-w-md mb-6">
-                All answers cite your verified document sources and page numbers.
+              <p className="text-xs text-[#AE7DAC] max-w-md mb-6">
+                All responses cite your verified document sources and page numbers.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-w-lg w-full">
@@ -273,9 +272,9 @@ export const ChatInterface: React.FC = () => {
                       setInputQuestion(item.text);
                       textareaRef.current?.focus();
                     }}
-                    className="p-3 bg-black border border-[#274D60] hover:border-[#366882] hover:bg-[#274D60]/20 rounded-xl text-left text-xs text-[#8daec0] hover:text-white transition flex items-start gap-2.5 group"
+                    className="p-3 bg-[#19305C] border border-[#413B61] hover:border-[#F1916D] hover:bg-[#413B61]/40 rounded-xl text-left text-xs text-[#F3DADF] hover:text-white transition flex items-start gap-2.5 group"
                   >
-                    <item.icon size={15} className="text-[#8daec0] shrink-0 mt-0.5 group-hover:text-white" />
+                    <item.icon size={15} className="text-[#F1916D] shrink-0 mt-0.5 group-hover:scale-110 transition" />
                     <span>"{item.text}"</span>
                   </button>
                 ))}
@@ -288,7 +287,7 @@ export const ChatInterface: React.FC = () => {
                 className={`flex gap-3.5 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 {msg.role === 'assistant' && (
-                  <div className="w-8 h-8 rounded-xl bg-black border border-[#274D60] text-[#8daec0] flex items-center justify-center shrink-0 shadow-sm">
+                  <div className="w-8 h-8 rounded-xl bg-[#19305C] border border-[#413B61] text-[#F1916D] flex items-center justify-center shrink-0 shadow-sm">
                     <Brain size={16} />
                   </div>
                 )}
@@ -296,8 +295,8 @@ export const ChatInterface: React.FC = () => {
                 <div
                   className={`max-w-[80%] rounded-2xl p-4 text-xs leading-relaxed ${
                     msg.role === 'user'
-                      ? 'bg-[#274D60] text-white rounded-tr-sm border border-[#366882] shadow-md'
-                      : 'bg-[#05080b] border border-[#274D60] text-slate-100 rounded-tl-sm shadow-md'
+                      ? 'bg-[#F1916D] text-[#03122F] font-medium rounded-tr-sm shadow-md'
+                      : 'bg-[#19305C] border border-[#413B61] text-[#F3DADF] rounded-tl-sm shadow-md'
                   }`}
                 >
                   {/* Message Content */}
@@ -305,10 +304,10 @@ export const ChatInterface: React.FC = () => {
 
                   {/* Sources Tray (Assistant Only) */}
                   {msg.role === 'assistant' && (
-                    <div className="mt-4 pt-3 border-t border-[#274D60]/60">
+                    <div className="mt-4 pt-3 border-t border-[#413B61]">
                       {msg.sources && msg.sources.length > 0 ? (
                         <div>
-                          <div className="flex items-center gap-1.5 text-[11px] font-medium text-[#8daec0] mb-2">
+                          <div className="flex items-center gap-1.5 text-[11px] font-semibold text-[#F1916D] mb-2">
                             <BookOpen size={13} />
                             <span>Verified Citations ({msg.sources.length})</span>
                           </div>
@@ -319,28 +318,28 @@ export const ChatInterface: React.FC = () => {
                               return (
                                 <div
                                   key={idx}
-                                  className="bg-black border border-[#274D60] rounded-xl p-2.5 text-[11px]"
+                                  className="bg-[#03122F] border border-[#413B61] rounded-xl p-2.5 text-[11px]"
                                 >
                                   <div
                                     onClick={() => toggleSourceExpand(msg.id, idx)}
-                                    className="flex items-center justify-between cursor-pointer text-[#8daec0] hover:text-white transition"
+                                    className="flex items-center justify-between cursor-pointer text-[#F3DADF] hover:text-[#F1916D] transition"
                                   >
                                     <div className="flex items-center gap-2 truncate">
-                                      <FileText size={13} className="text-[#8daec0] shrink-0" />
+                                      <FileText size={13} className="text-[#F1916D] shrink-0" />
                                       <span className="font-medium truncate">{source.filename}</span>
                                       {source.page && (
-                                        <span className="bg-[#274D60]/40 text-[#8daec0] border border-[#274D60] px-1.5 py-0.5 rounded text-[10px]">
+                                        <span className="bg-[#413B61] text-[#F3DADF] px-1.5 py-0.5 rounded text-[10px]">
                                           Page {source.page}
                                         </span>
                                       )}
                                     </div>
-                                    <div className="flex items-center gap-2 text-[#8daec0]/60">
+                                    <div className="flex items-center gap-2 text-[#AE7DAC]">
                                       {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                                     </div>
                                   </div>
 
                                   {isExpanded && source.preview && (
-                                    <div className="mt-2 pt-2 border-t border-[#274D60]/50 text-[#8daec0]/80 italic font-serif text-[11px] bg-black/60 p-2 rounded">
+                                    <div className="mt-2 pt-2 border-t border-[#413B61] text-[#AE7DAC] italic font-serif text-[11px] bg-[#19305C]/60 p-2 rounded">
                                       "{source.preview}"
                                     </div>
                                   )}
@@ -350,7 +349,7 @@ export const ChatInterface: React.FC = () => {
                           </div>
                         </div>
                       ) : msg.grounded === false ? (
-                        <div className="flex items-center gap-1.5 text-[11px] text-amber-400">
+                        <div className="flex items-center gap-1.5 text-[11px] text-[#F1916D]">
                           <AlertCircle size={13} />
                           <span>No matching sources found in your documents.</span>
                         </div>
@@ -360,7 +359,7 @@ export const ChatInterface: React.FC = () => {
                 </div>
 
                 {msg.role === 'user' && (
-                  <div className="w-8 h-8 rounded-xl bg-black text-[#8daec0] border border-[#274D60] flex items-center justify-center shrink-0">
+                  <div className="w-8 h-8 rounded-xl bg-[#19305C] text-[#F3DADF] border border-[#413B61] flex items-center justify-center shrink-0">
                     <UserIcon size={16} />
                   </div>
                 )}
@@ -370,14 +369,14 @@ export const ChatInterface: React.FC = () => {
 
           {loadingAnswer && (
             <div className="flex gap-3.5 justify-start">
-              <div className="w-8 h-8 rounded-xl bg-black border border-[#274D60] text-[#8daec0] flex items-center justify-center shrink-0">
+              <div className="w-8 h-8 rounded-xl bg-[#19305C] border border-[#413B61] text-[#F1916D] flex items-center justify-center shrink-0">
                 <Brain size={16} className="animate-pulse" />
               </div>
-              <div className="bg-[#05080b] border border-[#274D60] rounded-2xl rounded-tl-sm p-4 text-xs text-[#8daec0] flex items-center gap-2.5">
+              <div className="bg-[#19305C] border border-[#413B61] rounded-2xl rounded-tl-sm p-4 text-xs text-[#AE7DAC] flex items-center gap-2.5">
                 <div className="flex space-x-1.5">
-                  <div className="w-2 h-2 bg-[#8daec0] rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-                  <div className="w-2 h-2 bg-[#8daec0] rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-                  <div className="w-2 h-2 bg-[#8daec0] rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-[#F1916D] rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                  <div className="w-2 h-2 bg-[#F1916D] rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                  <div className="w-2 h-2 bg-[#F1916D] rounded-full animate-bounce"></div>
                 </div>
                 <span>Thinking...</span>
               </div>
@@ -388,7 +387,7 @@ export const ChatInterface: React.FC = () => {
         </div>
 
         {/* Input Bar */}
-        <div className="p-4 bg-black border-t border-[#274D60]">
+        <div className="p-4 bg-[#19305C] border-t border-[#413B61]">
           <form onSubmit={handleSendMessage} className="flex gap-3 items-end">
             <textarea
               ref={textareaRef}
@@ -402,19 +401,19 @@ export const ChatInterface: React.FC = () => {
                 }
               }}
               placeholder="Ask a question about your documents..."
-              className="flex-1 bg-[#05080b] border border-[#274D60] rounded-xl px-4 py-3 text-xs text-white placeholder-[#274D60] focus:outline-none focus:border-[#366882] focus:ring-1 focus:ring-[#366882] transition resize-none max-h-32"
+              className="flex-1 bg-[#03122F] border border-[#413B61] rounded-xl px-4 py-3 text-xs text-[#F3DADF] placeholder-[#AE7DAC]/60 focus:outline-none focus:border-[#F1916D] focus:ring-1 focus:ring-[#F1916D] transition resize-none max-h-32"
             />
             <button
               type="submit"
               disabled={!inputQuestion.trim() || loadingAnswer}
-              className="h-10 px-4 bg-[#274D60] hover:bg-[#366882] disabled:opacity-40 disabled:hover:bg-[#274D60] text-white rounded-xl flex items-center justify-center transition border border-[#366882] shadow-sm shrink-0"
+              className="h-10 px-4 bg-[#F1916D] hover:bg-[#F1916D]/90 disabled:opacity-40 disabled:hover:bg-[#F1916D] text-[#03122F] font-bold rounded-xl flex items-center justify-center transition shadow-md shrink-0"
             >
               <Send size={15} />
             </button>
           </form>
-          <div className="flex items-center justify-between text-[10px] text-[#8daec0]/60 mt-2 px-1">
+          <div className="flex items-center justify-between text-[10px] text-[#AE7DAC] mt-2 px-1">
             <span className="flex items-center gap-1">
-              <ShieldCheck size={11} className="text-[#8daec0]" /> Grounded document verification
+              <ShieldCheck size={11} className="text-[#F1916D]" /> Strict document verification
             </span>
             <span>Shift + Enter for new line</span>
           </div>
