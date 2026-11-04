@@ -26,8 +26,10 @@ import {
   sendChatMessage,
 } from '../api';
 import { ChatMessage, ChatSession } from '../types';
+import { useTheme } from '../context/ThemeContext';
 
 export const ChatInterface: React.FC = () => {
+  const { isLight } = useTheme();
   const [sessions, setSessions] = useState<ChatSession[]>([]);
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -167,18 +169,34 @@ export const ChatInterface: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 h-[calc(100vh-4.5rem)] flex gap-6">
       {/* Sessions Sidebar */}
-      <aside className="w-72 bg-[#19305C] border-2 border-[#413B61] rounded-2xl flex flex-col overflow-hidden shrink-0 shadow-xl hidden md:flex">
+      <aside
+        className={`w-72 border-2 rounded-2xl flex flex-col overflow-hidden shrink-0 shadow-lg hidden md:flex transition-colors ${
+          isLight
+            ? 'bg-white border-slate-200'
+            : 'bg-[#19305C] border-[#413B61]'
+        }`}
+      >
         {/* Sidebar Header */}
-        <div className="p-4 border-b border-[#413B61] flex items-center justify-between bg-[#19305C]">
+        <div
+          className={`p-4 border-b flex items-center justify-between ${
+            isLight
+              ? 'bg-slate-50 border-slate-200'
+              : 'bg-[#19305C] border-[#413B61]'
+          }`}
+        >
           <div className="flex items-center gap-2">
             <MessageSquare size={15} className="text-[#F1916D]" />
-            <span className="text-xs font-semibold text-[#F3DADF] uppercase tracking-wider">
+            <span
+              className={`text-xs font-semibold uppercase tracking-wider ${
+                isLight ? 'text-slate-700' : 'text-[#F3DADF]'
+              }`}
+            >
               Conversations
             </span>
           </div>
           <button
             onClick={handleNewChat}
-            className="flex items-center gap-1.5 bg-[#F1916D] hover:bg-[#F1916D]/90 text-[#03122F] text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-sm"
+            className="flex items-center gap-1.5 bg-[#F1916D] hover:bg-[#F1916D]/90 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-sm"
           >
             <Plus size={14} />
             <span>New Chat</span>
@@ -186,15 +204,19 @@ export const ChatInterface: React.FC = () => {
         </div>
 
         {/* Sessions List */}
-        <div className="flex-1 overflow-y-auto p-2 space-y-1 bg-[#19305C]">
+        <div className={`flex-1 overflow-y-auto p-2 space-y-1 ${isLight ? 'bg-white' : 'bg-[#19305C]'}`}>
           {loadingSessions ? (
-            <div className="p-6 text-center text-xs text-[#AE7DAC] flex items-center justify-center gap-2">
+            <div
+              className={`p-6 text-center text-xs flex items-center justify-center gap-2 ${
+                isLight ? 'text-slate-400' : 'text-[#AE7DAC]'
+              }`}
+            >
               <Sparkles size={14} className="animate-spin text-[#F1916D]" />
               <span>Loading history...</span>
             </div>
           ) : sessions.length === 0 ? (
-            <div className="p-8 text-center text-[#AE7DAC]">
-              <MessageSquare size={26} className="mx-auto text-[#413B61] mb-2" />
+            <div className={`p-8 text-center ${isLight ? 'text-slate-400' : 'text-[#AE7DAC]'}`}>
+              <MessageSquare size={26} className="mx-auto mb-2 opacity-50" />
               <p className="text-xs">No previous chats</p>
             </div>
           ) : (
@@ -206,17 +228,22 @@ export const ChatInterface: React.FC = () => {
                   onClick={() => selectSession(sess.id)}
                   className={`group flex items-center justify-between px-3 py-2.5 rounded-xl text-xs cursor-pointer transition ${
                     isActive
-                      ? 'bg-[#F1916D] text-[#03122F] font-bold shadow-sm'
+                      ? 'bg-[#F1916D] text-white font-bold shadow-sm'
+                      : isLight
+                      ? 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
                       : 'text-[#AE7DAC] hover:bg-[#413B61]/50 hover:text-[#F3DADF]'
                   }`}
                 >
                   <div className="flex items-center gap-2.5 truncate">
-                    <MessageSquare size={14} className={isActive ? 'text-[#03122F]' : 'text-[#AE7DAC]'} />
+                    <MessageSquare
+                      size={14}
+                      className={isActive ? 'text-white' : isLight ? 'text-slate-400' : 'text-[#AE7DAC]'}
+                    />
                     <span className="truncate">{sess.title}</span>
                   </div>
                   <button
                     onClick={(e) => handleDeleteSession(sess.id, e)}
-                    className="opacity-0 group-hover:opacity-100 p-1 text-[#03122F]/70 hover:text-red-700 transition"
+                    className="opacity-0 group-hover:opacity-100 p-1 hover:text-red-600 transition"
                     title="Delete Chat"
                   >
                     <Trash2 size={13} />
@@ -229,33 +256,61 @@ export const ChatInterface: React.FC = () => {
       </aside>
 
       {/* Main Chat Area */}
-      <main className="flex-1 bg-[#03122F] border-2 border-[#413B61] rounded-2xl flex flex-col overflow-hidden shadow-2xl">
+      <main
+        className={`flex-1 border-2 rounded-2xl flex flex-col overflow-hidden shadow-xl transition-colors ${
+          isLight
+            ? 'bg-slate-50 border-slate-200'
+            : 'bg-[#03122F] border-[#413B61]'
+        }`}
+      >
         {/* Chat Header Bar */}
-        <div className="px-6 py-3.5 border-b border-[#413B61] flex items-center justify-between bg-[#19305C]">
+        <div
+          className={`px-6 py-3.5 border-b flex items-center justify-between ${
+            isLight
+              ? 'bg-white border-slate-200'
+              : 'bg-[#19305C] border-[#413B61]'
+          }`}
+        >
           <div className="flex items-center gap-2.5">
-            <div className="p-1 rounded-lg bg-[#03122F] border border-[#413B61]">
+            <div
+              className={`p-1 rounded-lg border ${
+                isLight ? 'bg-slate-100 border-slate-200' : 'bg-[#03122F] border-[#413B61]'
+              }`}
+            >
               <Brain size={16} className="text-[#F1916D]" />
             </div>
-            <h2 className="text-sm font-semibold text-white">{activeSessionTitle}</h2>
+            <h2 className={`text-sm font-semibold ${isLight ? 'text-slate-900' : 'text-white'}`}>
+              {activeSessionTitle}
+            </h2>
           </div>
-          <div className="flex items-center gap-1.5 text-xs text-[#AE7DAC]">
+          <div className={`flex items-center gap-1.5 text-xs ${isLight ? 'text-slate-500' : 'text-[#AE7DAC]'}`}>
             <ShieldCheck size={14} className="text-[#F1916D]" />
             <span className="text-[11px]">Vault Grounded Citations</span>
           </div>
         </div>
 
         {/* Message Stream */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[#03122F]">
+        <div className={`flex-1 overflow-y-auto p-6 space-y-6 ${isLight ? 'bg-slate-50' : 'bg-[#03122F]'}`}>
           {messages.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center p-8">
-              <div className="p-4 bg-[#19305C] border-2 border-[#413B61] text-[#F1916D] rounded-2xl mb-4 shadow-[0_0_30px_rgba(241,145,109,0.2)]">
+              <div
+                className={`p-4 rounded-2xl border-2 mb-4 shadow-md ${
+                  isLight
+                    ? 'bg-white border-slate-200 text-[#F1916D]'
+                    : 'bg-[#19305C] border-[#413B61] text-[#F1916D]'
+                }`}
+              >
                 <Brain size={36} />
               </div>
-              <h3 className="text-base font-semibold text-white mb-1 flex items-center gap-2">
+              <h3
+                className={`text-base font-semibold mb-1 flex items-center gap-2 ${
+                  isLight ? 'text-slate-900' : 'text-white'
+                }`}
+              >
                 <Sparkles size={16} className="text-[#F1916D]" />
                 Ask Grounded Questions
               </h3>
-              <p className="text-xs text-[#AE7DAC] max-w-md mb-6">
+              <p className={`text-xs max-w-md mb-6 ${isLight ? 'text-slate-500' : 'text-[#AE7DAC]'}`}>
                 All responses cite your verified document sources and page numbers.
               </p>
 
@@ -272,7 +327,11 @@ export const ChatInterface: React.FC = () => {
                       setInputQuestion(item.text);
                       textareaRef.current?.focus();
                     }}
-                    className="p-3 bg-[#19305C] border border-[#413B61] hover:border-[#F1916D] hover:bg-[#413B61]/40 rounded-xl text-left text-xs text-[#F3DADF] hover:text-white transition flex items-start gap-2.5 group"
+                    className={`p-3 rounded-xl text-left text-xs transition flex items-start gap-2.5 border group ${
+                      isLight
+                        ? 'bg-white border-slate-200 hover:border-[#F1916D] text-slate-700 hover:text-slate-900 shadow-sm'
+                        : 'bg-[#19305C] border-[#413B61] hover:border-[#F1916D] text-[#F3DADF] hover:text-white'
+                    }`}
                   >
                     <item.icon size={15} className="text-[#F1916D] shrink-0 mt-0.5 group-hover:scale-110 transition" />
                     <span>"{item.text}"</span>
@@ -287,7 +346,13 @@ export const ChatInterface: React.FC = () => {
                 className={`flex gap-3.5 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 {msg.role === 'assistant' && (
-                  <div className="w-8 h-8 rounded-xl bg-[#19305C] border border-[#413B61] text-[#F1916D] flex items-center justify-center shrink-0 shadow-sm">
+                  <div
+                    className={`w-8 h-8 rounded-xl border flex items-center justify-center shrink-0 shadow-sm ${
+                      isLight
+                        ? 'bg-white border-slate-200 text-[#F1916D]'
+                        : 'bg-[#19305C] border-[#413B61] text-[#F1916D]'
+                    }`}
+                  >
                     <Brain size={16} />
                   </div>
                 )}
@@ -295,7 +360,9 @@ export const ChatInterface: React.FC = () => {
                 <div
                   className={`max-w-[80%] rounded-2xl p-4 text-xs leading-relaxed ${
                     msg.role === 'user'
-                      ? 'bg-[#F1916D] text-[#03122F] font-medium rounded-tr-sm shadow-md'
+                      ? 'bg-[#F1916D] text-white font-medium rounded-tr-sm shadow-md'
+                      : isLight
+                      ? 'bg-white border border-slate-200 text-slate-800 rounded-tl-sm shadow-sm'
                       : 'bg-[#19305C] border border-[#413B61] text-[#F3DADF] rounded-tl-sm shadow-md'
                   }`}
                 >
@@ -304,7 +371,11 @@ export const ChatInterface: React.FC = () => {
 
                   {/* Sources Tray (Assistant Only) */}
                   {msg.role === 'assistant' && (
-                    <div className="mt-4 pt-3 border-t border-[#413B61]">
+                    <div
+                      className={`mt-4 pt-3 border-t ${
+                        isLight ? 'border-slate-100' : 'border-[#413B61]'
+                      }`}
+                    >
                       {msg.sources && msg.sources.length > 0 ? (
                         <div>
                           <div className="flex items-center gap-1.5 text-[11px] font-semibold text-[#F1916D] mb-2">
@@ -318,28 +389,48 @@ export const ChatInterface: React.FC = () => {
                               return (
                                 <div
                                   key={idx}
-                                  className="bg-[#03122F] border border-[#413B61] rounded-xl p-2.5 text-[11px]"
+                                  className={`rounded-xl p-2.5 text-[11px] border ${
+                                    isLight
+                                      ? 'bg-slate-50 border-slate-200'
+                                      : 'bg-[#03122F] border-[#413B61]'
+                                  }`}
                                 >
                                   <div
                                     onClick={() => toggleSourceExpand(msg.id, idx)}
-                                    className="flex items-center justify-between cursor-pointer text-[#F3DADF] hover:text-[#F1916D] transition"
+                                    className={`flex items-center justify-between cursor-pointer transition ${
+                                      isLight
+                                        ? 'text-slate-700 hover:text-[#F1916D]'
+                                        : 'text-[#F3DADF] hover:text-[#F1916D]'
+                                    }`}
                                   >
                                     <div className="flex items-center gap-2 truncate">
                                       <FileText size={13} className="text-[#F1916D] shrink-0" />
                                       <span className="font-medium truncate">{source.filename}</span>
                                       {source.page && (
-                                        <span className="bg-[#413B61] text-[#F3DADF] px-1.5 py-0.5 rounded text-[10px]">
+                                        <span
+                                          className={`px-1.5 py-0.5 rounded text-[10px] ${
+                                            isLight
+                                              ? 'bg-slate-200 text-slate-700'
+                                              : 'bg-[#413B61] text-[#F3DADF]'
+                                          }`}
+                                        >
                                           Page {source.page}
                                         </span>
                                       )}
                                     </div>
-                                    <div className="flex items-center gap-2 text-[#AE7DAC]">
+                                    <div className={isLight ? 'text-slate-400' : 'text-[#AE7DAC]'}>
                                       {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                                     </div>
                                   </div>
 
                                   {isExpanded && source.preview && (
-                                    <div className="mt-2 pt-2 border-t border-[#413B61] text-[#AE7DAC] italic font-serif text-[11px] bg-[#19305C]/60 p-2 rounded">
+                                    <div
+                                      className={`mt-2 pt-2 border-t italic font-serif text-[11px] p-2 rounded ${
+                                        isLight
+                                          ? 'border-slate-200 text-slate-600 bg-white'
+                                          : 'border-[#413B61] text-[#AE7DAC] bg-[#19305C]/60'
+                                      }`}
+                                    >
                                       "{source.preview}"
                                     </div>
                                   )}
@@ -359,7 +450,13 @@ export const ChatInterface: React.FC = () => {
                 </div>
 
                 {msg.role === 'user' && (
-                  <div className="w-8 h-8 rounded-xl bg-[#19305C] text-[#F3DADF] border border-[#413B61] flex items-center justify-center shrink-0">
+                  <div
+                    className={`w-8 h-8 rounded-xl border flex items-center justify-center shrink-0 ${
+                      isLight
+                        ? 'bg-slate-200 text-slate-700 border-slate-300'
+                        : 'bg-[#19305C] text-[#F3DADF] border-[#413B61]'
+                    }`}
+                  >
                     <UserIcon size={16} />
                   </div>
                 )}
@@ -369,10 +466,22 @@ export const ChatInterface: React.FC = () => {
 
           {loadingAnswer && (
             <div className="flex gap-3.5 justify-start">
-              <div className="w-8 h-8 rounded-xl bg-[#19305C] border border-[#413B61] text-[#F1916D] flex items-center justify-center shrink-0">
+              <div
+                className={`w-8 h-8 rounded-xl border flex items-center justify-center shrink-0 ${
+                  isLight
+                    ? 'bg-white border-slate-200 text-[#F1916D]'
+                    : 'bg-[#19305C] border-[#413B61] text-[#F1916D]'
+                }`}
+              >
                 <Brain size={16} className="animate-pulse" />
               </div>
-              <div className="bg-[#19305C] border border-[#413B61] rounded-2xl rounded-tl-sm p-4 text-xs text-[#AE7DAC] flex items-center gap-2.5">
+              <div
+                className={`rounded-2xl rounded-tl-sm p-4 text-xs flex items-center gap-2.5 border ${
+                  isLight
+                    ? 'bg-white border-slate-200 text-slate-600 shadow-sm'
+                    : 'bg-[#19305C] border-[#413B61] text-[#AE7DAC]'
+                }`}
+              >
                 <div className="flex space-x-1.5">
                   <div className="w-2 h-2 bg-[#F1916D] rounded-full animate-bounce [animation-delay:-0.3s]"></div>
                   <div className="w-2 h-2 bg-[#F1916D] rounded-full animate-bounce [animation-delay:-0.15s]"></div>
@@ -387,7 +496,11 @@ export const ChatInterface: React.FC = () => {
         </div>
 
         {/* Input Bar */}
-        <div className="p-4 bg-[#19305C] border-t border-[#413B61]">
+        <div
+          className={`p-4 border-t ${
+            isLight ? 'bg-white border-slate-200' : 'bg-[#19305C] border-[#413B61]'
+          }`}
+        >
           <form onSubmit={handleSendMessage} className="flex gap-3 items-end">
             <textarea
               ref={textareaRef}
@@ -401,17 +514,25 @@ export const ChatInterface: React.FC = () => {
                 }
               }}
               placeholder="Ask a question about your documents..."
-              className="flex-1 bg-[#03122F] border border-[#413B61] rounded-xl px-4 py-3 text-xs text-[#F3DADF] placeholder-[#AE7DAC]/60 focus:outline-none focus:border-[#F1916D] focus:ring-1 focus:ring-[#F1916D] transition resize-none max-h-32"
+              className={`flex-1 rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-[#F1916D] focus:ring-1 focus:ring-[#F1916D] transition resize-none max-h-32 border ${
+                isLight
+                  ? 'bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400'
+                  : 'bg-[#03122F] border-[#413B61] text-[#F3DADF] placeholder-[#AE7DAC]/60'
+              }`}
             />
             <button
               type="submit"
               disabled={!inputQuestion.trim() || loadingAnswer}
-              className="h-10 px-4 bg-[#F1916D] hover:bg-[#F1916D]/90 disabled:opacity-40 disabled:hover:bg-[#F1916D] text-[#03122F] font-bold rounded-xl flex items-center justify-center transition shadow-md shrink-0"
+              className="h-10 px-4 bg-[#F1916D] hover:bg-[#F1916D]/90 disabled:opacity-40 disabled:hover:bg-[#F1916D] text-white font-bold rounded-xl flex items-center justify-center transition shadow-md shrink-0"
             >
               <Send size={15} />
             </button>
           </form>
-          <div className="flex items-center justify-between text-[10px] text-[#AE7DAC] mt-2 px-1">
+          <div
+            className={`flex items-center justify-between text-[10px] mt-2 px-1 ${
+              isLight ? 'text-slate-400' : 'text-[#AE7DAC]'
+            }`}
+          >
             <span className="flex items-center gap-1">
               <ShieldCheck size={11} className="text-[#F1916D]" /> Strict document verification
             </span>

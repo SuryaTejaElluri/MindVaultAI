@@ -12,9 +12,11 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 
 export const AuthCard: React.FC = () => {
   const { login, register } = useAuth();
+  const { isLight } = useTheme();
   const [mode, setMode] = useState<'login' | 'register'>('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -60,9 +62,19 @@ export const AuthCard: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto bg-[#19305C] border-2 border-[#413B61] rounded-3xl p-7 shadow-[0_10px_35px_rgba(3,18,47,0.7)] space-y-6">
+    <div
+      className={`w-full max-w-md mx-auto border-2 rounded-3xl p-7 shadow-xl space-y-6 transition-all ${
+        isLight
+          ? 'bg-white border-slate-200 shadow-slate-200/50'
+          : 'bg-[#19305C] border-[#413B61] shadow-[0_10px_35px_rgba(3,18,47,0.7)]'
+      }`}
+    >
       {/* Tab Switcher */}
-      <div className="flex bg-[#03122F] p-1.5 rounded-2xl border border-[#413B61]">
+      <div
+        className={`flex p-1.5 rounded-2xl border ${
+          isLight ? 'bg-slate-100 border-slate-200' : 'bg-[#03122F] border-[#413B61]'
+        }`}
+      >
         <button
           type="button"
           onClick={() => {
@@ -71,7 +83,9 @@ export const AuthCard: React.FC = () => {
           }}
           className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold transition ${
             mode === 'login'
-              ? 'bg-[#F1916D] text-[#03122F] shadow-md font-bold'
+              ? 'bg-[#F1916D] text-white shadow-md font-bold'
+              : isLight
+              ? 'text-slate-600 hover:text-slate-900'
               : 'text-[#AE7DAC] hover:text-[#F3DADF]'
           }`}
         >
@@ -86,7 +100,9 @@ export const AuthCard: React.FC = () => {
           }}
           className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold transition ${
             mode === 'register'
-              ? 'bg-[#F1916D] text-[#03122F] shadow-md font-bold'
+              ? 'bg-[#F1916D] text-white shadow-md font-bold'
+              : isLight
+              ? 'text-slate-600 hover:text-slate-900'
               : 'text-[#AE7DAC] hover:text-[#F3DADF]'
           }`}
         >
@@ -96,7 +112,11 @@ export const AuthCard: React.FC = () => {
       </div>
 
       <div className="text-left space-y-1">
-        <h2 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+        <h2
+          className={`text-xl font-bold tracking-tight flex items-center gap-2 ${
+            isLight ? 'text-slate-900' : 'text-white'
+          }`}
+        >
           {mode === 'login' ? (
             <>
               <KeyRound size={20} className="text-[#F1916D]" />
@@ -109,7 +129,7 @@ export const AuthCard: React.FC = () => {
             </>
           )}
         </h2>
-        <p className="text-xs text-[#AE7DAC]">
+        <p className={`text-xs ${isLight ? 'text-slate-500' : 'text-[#AE7DAC]'}`}>
           {mode === 'login'
             ? 'Sign in to access your isolated knowledge vault.'
             : 'Register a new account. Your documents are strictly partitioned.'}
@@ -117,56 +137,92 @@ export const AuthCard: React.FC = () => {
       </div>
 
       {error && (
-        <div className="p-3 bg-red-950/40 border border-red-500/40 text-red-300 rounded-xl text-xs flex items-center gap-2.5 text-left">
-          <AlertCircle size={16} className="shrink-0 text-red-400" />
+        <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-600 rounded-xl text-xs flex items-center gap-2.5 text-left">
+          <AlertCircle size={16} className="shrink-0 text-red-500" />
           <span>{error}</span>
         </div>
       )}
 
       {successMessage && (
-        <div className="p-3 bg-[#413B61]/40 border border-[#AE7DAC] text-[#F3DADF] rounded-xl text-xs flex items-center gap-2.5 text-left">
-          <CheckCircle2 size={16} className="shrink-0 text-[#F1916D]" />
+        <div
+          className={`p-3 rounded-xl text-xs flex items-center gap-2.5 text-left border ${
+            isLight
+              ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
+              : 'bg-[#413B61]/40 border-[#AE7DAC] text-[#F3DADF]'
+          }`}
+        >
+          <CheckCircle2 size={16} className="shrink-0 text-emerald-500" />
           <span>{successMessage}</span>
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4 text-left">
         <div>
-          <label className="block text-xs font-medium text-[#F3DADF] mb-1.5 flex items-center gap-1.5">
-            <Mail size={13} className="text-[#AE7DAC]" />
+          <label
+            className={`block text-xs font-medium mb-1.5 flex items-center gap-1.5 ${
+              isLight ? 'text-slate-700' : 'text-[#F3DADF]'
+            }`}
+          >
+            <Mail size={13} className="text-[#F1916D]" />
             Email Address
           </label>
           <div className="relative">
-            <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#AE7DAC]" />
+            <Mail
+              size={16}
+              className={`absolute left-3.5 top-1/2 -translate-y-1/2 ${
+                isLight ? 'text-slate-400' : 'text-[#AE7DAC]'
+              }`}
+            />
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="w-full bg-[#03122F] border border-[#413B61] rounded-xl pl-10 pr-3.5 py-2.5 text-sm text-[#F3DADF] placeholder:text-[#413B61] focus:outline-none focus:border-[#F1916D] focus:ring-1 focus:ring-[#F1916D] transition"
+              className={`w-full rounded-xl pl-10 pr-3.5 py-2.5 text-sm transition focus:outline-none focus:border-[#F1916D] focus:ring-1 focus:ring-[#F1916D] border ${
+                isLight
+                  ? 'bg-slate-50 border-slate-300 text-slate-900 placeholder:text-slate-400'
+                  : 'bg-[#03122F] border-[#413B61] text-[#F3DADF] placeholder:text-[#413B61]'
+              }`}
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-[#F3DADF] mb-1.5 flex items-center gap-1.5">
-            <Lock size={13} className="text-[#AE7DAC]" />
+          <label
+            className={`block text-xs font-medium mb-1.5 flex items-center gap-1.5 ${
+              isLight ? 'text-slate-700' : 'text-[#F3DADF]'
+            }`}
+          >
+            <Lock size={13} className="text-[#F1916D]" />
             Password
           </label>
           <div className="relative">
-            <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#AE7DAC]" />
+            <Lock
+              size={16}
+              className={`absolute left-3.5 top-1/2 -translate-y-1/2 ${
+                isLight ? 'text-slate-400' : 'text-[#AE7DAC]'
+              }`}
+            />
             <input
               type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full bg-[#03122F] border border-[#413B61] rounded-xl pl-10 pr-3.5 py-2.5 text-sm text-[#F3DADF] placeholder:text-[#413B61] focus:outline-none focus:border-[#F1916D] focus:ring-1 focus:ring-[#F1916D] transition"
+              className={`w-full rounded-xl pl-10 pr-3.5 py-2.5 text-sm transition focus:outline-none focus:border-[#F1916D] focus:ring-1 focus:ring-[#F1916D] border ${
+                isLight
+                  ? 'bg-slate-50 border-slate-300 text-slate-900 placeholder:text-slate-400'
+                  : 'bg-[#03122F] border-[#413B61] text-[#F3DADF] placeholder:text-[#413B61]'
+              }`}
             />
           </div>
           {mode === 'register' && (
-            <p className="text-[11px] text-[#AE7DAC] mt-1 flex items-center gap-1">
+            <p
+              className={`text-[11px] mt-1 flex items-center gap-1 ${
+                isLight ? 'text-slate-400' : 'text-[#AE7DAC]'
+              }`}
+            >
               <Shield size={11} className="text-[#F1916D]" /> Minimum 6 characters
             </p>
           )}
@@ -174,19 +230,32 @@ export const AuthCard: React.FC = () => {
 
         {mode === 'register' && (
           <div>
-            <label className="block text-xs font-medium text-[#F3DADF] mb-1.5 flex items-center gap-1.5">
-              <Lock size={13} className="text-[#AE7DAC]" />
+            <label
+              className={`block text-xs font-medium mb-1.5 flex items-center gap-1.5 ${
+                isLight ? 'text-slate-700' : 'text-[#F3DADF]'
+              }`}
+            >
+              <Lock size={13} className="text-[#F1916D]" />
               Confirm Password
             </label>
             <div className="relative">
-              <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#AE7DAC]" />
+              <Lock
+                size={16}
+                className={`absolute left-3.5 top-1/2 -translate-y-1/2 ${
+                  isLight ? 'text-slate-400' : 'text-[#AE7DAC]'
+                }`}
+              />
               <input
                 type="password"
                 required
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full bg-[#03122F] border border-[#413B61] rounded-xl pl-10 pr-3.5 py-2.5 text-sm text-[#F3DADF] placeholder:text-[#413B61] focus:outline-none focus:border-[#F1916D] focus:ring-1 focus:ring-[#F1916D] transition"
+                className={`w-full rounded-xl pl-10 pr-3.5 py-2.5 text-sm transition focus:outline-none focus:border-[#F1916D] focus:ring-1 focus:ring-[#F1916D] border ${
+                  isLight
+                    ? 'bg-slate-50 border-slate-300 text-slate-900 placeholder:text-slate-400'
+                    : 'bg-[#03122F] border-[#413B61] text-[#F3DADF] placeholder:text-[#413B61]'
+                }`}
               />
             </div>
           </div>
@@ -195,11 +264,11 @@ export const AuthCard: React.FC = () => {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full flex items-center justify-center gap-2 bg-[#F1916D] hover:bg-[#F1916D]/90 disabled:opacity-50 text-[#03122F] py-3 px-4 rounded-xl text-sm font-bold transition shadow-lg shadow-[#F1916D]/20 mt-3"
+          className="w-full flex items-center justify-center gap-2 bg-[#F1916D] hover:bg-[#F1916D]/90 disabled:opacity-50 text-white py-3 px-4 rounded-xl text-sm font-bold transition shadow-lg shadow-[#F1916D]/20 mt-3"
         >
           {isLoading ? (
             <>
-              <Loader2 size={16} className="animate-spin text-[#03122F]" />
+              <Loader2 size={16} className="animate-spin text-white" />
               {mode === 'login' ? 'Signing in...' : 'Registering...'}
             </>
           ) : mode === 'login' ? (

@@ -19,8 +19,10 @@ import {
 } from 'lucide-react';
 import { fetchDocuments, uploadDocument, renameDocument, deleteDocument } from '../api';
 import { DocumentItem } from '../types';
+import { useTheme } from '../context/ThemeContext';
 
 export const DocumentManager: React.FC = () => {
+  const { isLight } = useTheme();
   const [documents, setDocuments] = useState<DocumentItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -137,27 +139,45 @@ export const DocumentManager: React.FC = () => {
   const getFileIcon = (filename: string) => {
     const ext = filename.split('.').pop()?.toLowerCase();
     if (ext === 'pdf') return <File className="text-[#F1916D]" size={18} />;
-    if (ext === 'md') return <FileCode className="text-[#AE7DAC]" size={18} />;
-    return <FileText className="text-[#F3DADF]" size={18} />;
+    if (ext === 'md') return <FileCode className={isLight ? 'text-blue-500' : 'text-[#AE7DAC]'} size={18} />;
+    return <FileText className={isLight ? 'text-amber-500' : 'text-[#F3DADF]'} size={18} />;
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 bg-[#03122F]">
+    <div
+      className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 transition-colors ${
+        isLight ? 'bg-slate-50' : 'bg-[#03122F]'
+      }`}
+    >
       {/* Top Controls & Quota Indicator */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Upload Dropzone Card */}
-        <div className="md:col-span-2 bg-[#19305C] border-2 border-[#413B61] rounded-2xl p-6 shadow-xl">
+        <div
+          className={`md:col-span-2 border-2 rounded-2xl p-6 shadow-md transition-colors ${
+            isLight
+              ? 'bg-white border-slate-200'
+              : 'bg-[#19305C] border-[#413B61]'
+          }`}
+        >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <UploadCloud className="text-[#F1916D]" size={20} />
-              <h2 className="text-base font-semibold text-white">Upload Knowledge Documents</h2>
+              <h2 className={`text-base font-semibold ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                Upload Knowledge Documents
+              </h2>
             </div>
-            <label className="flex items-center gap-2 text-xs text-[#AE7DAC] cursor-pointer select-none">
+            <label
+              className={`flex items-center gap-2 text-xs cursor-pointer select-none ${
+                isLight ? 'text-slate-500' : 'text-[#AE7DAC]'
+              }`}
+            >
               <input
                 type="checkbox"
                 checked={backgroundUpload}
                 onChange={(e) => setBackgroundUpload(e.target.checked)}
-                className="rounded border-[#413B61] bg-[#03122F] text-[#F1916D] focus:ring-0 focus:ring-offset-0"
+                className={`rounded border text-[#F1916D] focus:ring-0 focus:ring-offset-0 ${
+                  isLight ? 'border-slate-300 bg-white' : 'border-[#413B61] bg-[#03122F]'
+                }`}
               />
               <span>Async background ingestion</span>
             </label>
@@ -167,8 +187,12 @@ export const DocumentManager: React.FC = () => {
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleFileDrop}
             onClick={() => fileInputRef.current?.click()}
-            className={`border-2 border-dashed border-[#413B61] hover:border-[#F1916D] hover:bg-[#413B61]/20 bg-[#03122F] rounded-xl p-8 text-center cursor-pointer transition flex flex-col items-center justify-center gap-3 ${
+            className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition flex flex-col items-center justify-center gap-3 ${
               uploading ? 'opacity-50 pointer-events-none' : ''
+            } ${
+              isLight
+                ? 'border-slate-300 hover:border-[#F1916D] bg-slate-50/50 hover:bg-slate-100/50'
+                : 'border-[#413B61] hover:border-[#F1916D] hover:bg-[#413B61]/20 bg-[#03122F]'
             }`}
           >
             <input
@@ -178,7 +202,13 @@ export const DocumentManager: React.FC = () => {
               onChange={(e) => e.target.files?.[0] && handleFileUpload(e.target.files[0])}
               className="hidden"
             />
-            <div className="p-3 bg-[#19305C] border border-[#413B61] text-[#F1916D] rounded-full shadow-sm">
+            <div
+              className={`p-3 rounded-full shadow-sm border ${
+                isLight
+                  ? 'bg-white border-slate-200 text-[#F1916D]'
+                  : 'bg-[#19305C] border-[#413B61] text-[#F1916D]'
+              }`}
+            >
               {uploading ? (
                 <RefreshCw size={26} className="animate-spin text-[#F1916D]" />
               ) : (
@@ -186,10 +216,14 @@ export const DocumentManager: React.FC = () => {
               )}
             </div>
             <div>
-              <p className="text-sm font-medium text-white flex items-center justify-center gap-1.5">
+              <p
+                className={`text-sm font-medium flex items-center justify-center gap-1.5 ${
+                  isLight ? 'text-slate-800' : 'text-white'
+                }`}
+              >
                 {uploading ? 'Ingesting document...' : 'Click or drag files to upload to vault'}
               </p>
-              <p className="text-xs text-[#AE7DAC] mt-1">
+              <p className={`text-xs mt-1 ${isLight ? 'text-slate-500' : 'text-[#AE7DAC]'}`}>
                 Supports PDF, TXT, and Markdown (.md) up to 25 MB
               </p>
             </div>
@@ -197,22 +231,38 @@ export const DocumentManager: React.FC = () => {
         </div>
 
         {/* Quota & Overview Card */}
-        <div className="bg-[#19305C] border-2 border-[#413B61] rounded-2xl p-6 shadow-xl flex flex-col justify-between">
+        <div
+          className={`border-2 rounded-2xl p-6 shadow-md flex flex-col justify-between transition-colors ${
+            isLight
+              ? 'bg-white border-slate-200'
+              : 'bg-[#19305C] border-[#413B61]'
+          }`}
+        >
           <div>
             <div className="flex items-center gap-2 mb-4">
               <HardDrive className="text-[#F1916D]" size={20} />
-              <h2 className="text-base font-semibold text-white">Storage Quota</h2>
+              <h2 className={`text-base font-semibold ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                Storage Quota
+              </h2>
             </div>
 
             <div className="space-y-4">
               <div>
-                <div className="flex justify-between text-xs font-medium text-[#F3DADF] mb-1.5">
+                <div
+                  className={`flex justify-between text-xs font-medium mb-1.5 ${
+                    isLight ? 'text-slate-600' : 'text-[#F3DADF]'
+                  }`}
+                >
                   <span>Storage Utilization</span>
-                  <span className="text-[#F1916D] font-mono">
+                  <span className="text-[#F1916D] font-mono font-bold">
                     {totalSizeMB.toFixed(2)} MB / {quotaMB} MB
                   </span>
                 </div>
-                <div className="w-full bg-[#03122F] h-2.5 rounded-full overflow-hidden border border-[#413B61]">
+                <div
+                  className={`w-full h-2.5 rounded-full overflow-hidden border ${
+                    isLight ? 'bg-slate-100 border-slate-200' : 'bg-[#03122F] border-[#413B61]'
+                  }`}
+                >
                   <div
                     className={`h-full transition-all duration-500 ${
                       usedPercent > 80 ? 'bg-amber-500' : 'bg-[#F1916D]'
@@ -223,20 +273,38 @@ export const DocumentManager: React.FC = () => {
               </div>
 
               <div className="grid grid-cols-2 gap-3 pt-2">
-                <div className="bg-[#03122F] border border-[#413B61] rounded-xl p-3">
-                  <div className="flex items-center gap-1.5 text-[#AE7DAC] text-xs mb-1">
+                <div
+                  className={`border rounded-xl p-3 ${
+                    isLight ? 'bg-slate-50 border-slate-200' : 'bg-[#03122F] border-[#413B61]'
+                  }`}
+                >
+                  <div
+                    className={`flex items-center gap-1.5 text-xs mb-1 ${
+                      isLight ? 'text-slate-500' : 'text-[#AE7DAC]'
+                    }`}
+                  >
                     <FolderOpen size={14} className="text-[#F1916D]" />
                     <span>Documents</span>
                   </div>
-                  <p className="text-lg font-bold text-white font-mono">{documents.length}</p>
+                  <p className={`text-lg font-bold font-mono ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                    {documents.length}
+                  </p>
                 </div>
 
-                <div className="bg-[#03122F] border border-[#413B61] rounded-xl p-3">
-                  <div className="flex items-center gap-1.5 text-[#AE7DAC] text-xs mb-1">
+                <div
+                  className={`border rounded-xl p-3 ${
+                    isLight ? 'bg-slate-50 border-slate-200' : 'bg-[#03122F] border-[#413B61]'
+                  }`}
+                >
+                  <div
+                    className={`flex items-center gap-1.5 text-xs mb-1 ${
+                      isLight ? 'text-slate-500' : 'text-[#AE7DAC]'
+                    }`}
+                  >
                     <Layers size={14} className="text-[#F1916D]" />
                     <span>Vector Chunks</span>
                   </div>
-                  <p className="text-lg font-bold text-white font-mono">
+                  <p className={`text-lg font-bold font-mono ${isLight ? 'text-slate-900' : 'text-white'}`}>
                     {documents.reduce((sum, d) => sum + (d.chunk_count || 0), 0)}
                   </p>
                 </div>
@@ -244,7 +312,11 @@ export const DocumentManager: React.FC = () => {
             </div>
           </div>
 
-          <div className="text-[11px] text-[#AE7DAC] mt-4 flex items-center gap-1.5">
+          <div
+            className={`text-[11px] mt-4 flex items-center gap-1.5 ${
+              isLight ? 'text-slate-400' : 'text-[#AE7DAC]'
+            }`}
+          >
             <Shield size={12} className="text-[#F1916D]" />
             <span>Strictly isolated to your user account.</span>
           </div>
@@ -253,53 +325,91 @@ export const DocumentManager: React.FC = () => {
 
       {/* Alerts */}
       {error && (
-        <div className="bg-red-950/40 border border-red-500/40 text-red-300 px-4 py-3 rounded-xl flex items-center gap-3 text-xs">
-          <AlertCircle size={16} className="shrink-0 text-red-400" />
+        <div className="bg-red-500/10 border border-red-500/20 text-red-600 px-4 py-3 rounded-xl flex items-center gap-3 text-xs">
+          <AlertCircle size={16} className="shrink-0 text-red-500" />
           <span>{error}</span>
         </div>
       )}
 
       {successMessage && (
-        <div className="bg-[#413B61]/40 border border-[#AE7DAC] text-[#F3DADF] px-4 py-3 rounded-xl flex items-center gap-3 text-xs">
-          <CheckCircle2 size={16} className="shrink-0 text-[#F1916D]" />
+        <div
+          className={`border px-4 py-3 rounded-xl flex items-center gap-3 text-xs ${
+            isLight
+              ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
+              : 'bg-[#413B61]/40 border-[#AE7DAC] text-[#F3DADF]'
+          }`}
+        >
+          <CheckCircle2 size={16} className="shrink-0 text-emerald-500" />
           <span>{successMessage}</span>
         </div>
       )}
 
       {/* Document Registry Table */}
-      <div className="bg-[#19305C] border-2 border-[#413B61] rounded-2xl shadow-xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-[#413B61] flex items-center justify-between bg-[#19305C]">
+      <div
+        className={`border-2 rounded-2xl shadow-lg overflow-hidden transition-colors ${
+          isLight
+            ? 'bg-white border-slate-200'
+            : 'bg-[#19305C] border-[#413B61]'
+        }`}
+      >
+        <div
+          className={`px-6 py-4 border-b flex items-center justify-between ${
+            isLight
+              ? 'bg-white border-slate-200'
+              : 'bg-[#19305C] border-[#413B61]'
+          }`}
+        >
           <div className="flex items-center gap-2">
             <FolderOpen size={16} className="text-[#F1916D]" />
-            <h3 className="text-sm font-semibold text-white">Registered Documents</h3>
-            <span className="text-xs text-[#AE7DAC] font-mono">({documents.length})</span>
+            <h3 className={`text-sm font-semibold ${isLight ? 'text-slate-900' : 'text-white'}`}>
+              Registered Documents
+            </h3>
+            <span className={`text-xs font-mono ${isLight ? 'text-slate-400' : 'text-[#AE7DAC]'}`}>
+              ({documents.length})
+            </span>
           </div>
           <button
             onClick={loadDocuments}
             title="Refresh"
-            className="p-1.5 text-[#AE7DAC] hover:text-[#F1916D] hover:bg-[#03122F] border border-[#413B61] rounded-lg transition"
+            className={`p-1.5 rounded-lg border transition ${
+              isLight
+                ? 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 border-slate-200'
+                : 'text-[#AE7DAC] hover:text-[#F1916D] hover:bg-[#03122F] border-[#413B61]'
+            }`}
           >
             <RefreshCw size={14} />
           </button>
         </div>
 
         {loading ? (
-          <div className="p-12 text-center text-[#AE7DAC] flex flex-col items-center gap-2">
+          <div
+            className={`p-12 text-center flex flex-col items-center gap-2 ${
+              isLight ? 'text-slate-400' : 'text-[#AE7DAC]'
+            }`}
+          >
             <RefreshCw size={22} className="animate-spin text-[#F1916D]" />
             <p className="text-xs">Loading documents...</p>
           </div>
         ) : documents.length === 0 ? (
-          <div className="p-16 text-center text-[#AE7DAC]">
-            <FileText size={36} className="mx-auto text-[#413B61] mb-3" />
-            <p className="text-sm font-medium text-white">No documents uploaded</p>
-            <p className="text-xs text-[#AE7DAC] mt-1">
+          <div className={`p-16 text-center ${isLight ? 'text-slate-400' : 'text-[#AE7DAC]'}`}>
+            <FileText size={36} className="mx-auto mb-3 opacity-40" />
+            <p className={`text-sm font-medium ${isLight ? 'text-slate-700' : 'text-white'}`}>
+              No documents uploaded
+            </p>
+            <p className="text-xs mt-1">
               Upload PDF, TXT, or Markdown files to populate your isolated knowledge base.
             </p>
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs text-[#F3DADF]">
-              <thead className="bg-[#03122F] text-[11px] uppercase tracking-wider text-[#AE7DAC] border-b border-[#413B61]">
+            <table className="w-full text-left text-xs">
+              <thead
+                className={`text-[11px] uppercase tracking-wider border-b ${
+                  isLight
+                    ? 'bg-slate-50 border-slate-200 text-slate-500'
+                    : 'bg-[#03122F] border-[#413B61] text-[#AE7DAC]'
+                }`}
+              >
                 <tr>
                   <th className="py-3.5 px-6">Document Name</th>
                   <th className="py-3.5 px-6">Status</th>
@@ -309,17 +419,38 @@ export const DocumentManager: React.FC = () => {
                   <th className="py-3.5 px-6 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#413B61]/60 font-normal bg-[#19305C]">
+              <tbody
+                className={`divide-y font-normal ${
+                  isLight
+                    ? 'divide-slate-100 bg-white text-slate-700'
+                    : 'divide-[#413B61]/60 bg-[#19305C] text-[#F3DADF]'
+                }`}
+              >
                 {documents.map((doc) => (
-                  <tr key={doc.id} className="hover:bg-[#413B61]/30 transition">
+                  <tr
+                    key={doc.id}
+                    className={`transition ${isLight ? 'hover:bg-slate-50' : 'hover:bg-[#413B61]/30'}`}
+                  >
                     <td className="py-3.5 px-6">
                       <div className="flex items-center gap-3">
-                        <div className="p-2 bg-[#03122F] rounded-lg border border-[#413B61]">
+                        <div
+                          className={`p-2 rounded-lg border ${
+                            isLight
+                              ? 'bg-slate-50 border-slate-200'
+                              : 'bg-[#03122F] border-[#413B61]'
+                          }`}
+                        >
                           {getFileIcon(doc.filename)}
                         </div>
                         <div>
-                          <p className="font-medium text-white">{doc.filename}</p>
-                          <p className="text-[10px] text-[#AE7DAC] font-mono truncate max-w-[200px]">
+                          <p className={`font-medium ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                            {doc.filename}
+                          </p>
+                          <p
+                            className={`text-[10px] font-mono truncate max-w-[200px] ${
+                              isLight ? 'text-slate-400' : 'text-[#AE7DAC]'
+                            }`}
+                          >
                             {doc.id}
                           </p>
                         </div>
@@ -327,13 +458,19 @@ export const DocumentManager: React.FC = () => {
                     </td>
                     <td className="py-3.5 px-6">
                       {doc.status === 'completed' && (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-[#03122F] text-[#F1916D] border border-[#413B61]">
+                        <span
+                          className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium border ${
+                            isLight
+                              ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                              : 'bg-[#03122F] text-[#F1916D] border-[#413B61]'
+                          }`}
+                        >
                           <CheckCircle2 size={12} />
                           Ready
                         </span>
                       )}
                       {doc.status === 'processing' && (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-amber-500/10 text-amber-300 border border-amber-500/30">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-amber-500/10 text-amber-600 border border-amber-500/30">
                           <RefreshCw size={12} className="animate-spin" />
                           Processing
                         </span>
@@ -341,16 +478,28 @@ export const DocumentManager: React.FC = () => {
                       {doc.status === 'failed' && (
                         <span
                           title={doc.error_message || 'Ingestion failed'}
-                          className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-red-950/40 text-red-400 border border-red-500/30 cursor-help"
+                          className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-red-50 text-red-600 border border-red-200 cursor-help"
                         >
                           <AlertCircle size={12} />
                           Failed
                         </span>
                       )}
                     </td>
-                    <td className="py-3.5 px-6 text-[#AE7DAC] font-mono">{formatFileSize(doc.file_size)}</td>
-                    <td className="py-3.5 px-6 font-mono text-white">{doc.chunk_count}</td>
-                    <td className="py-3.5 px-6 text-[#AE7DAC]">
+                    <td
+                      className={`py-3.5 px-6 font-mono ${
+                        isLight ? 'text-slate-600' : 'text-[#AE7DAC]'
+                      }`}
+                    >
+                      {formatFileSize(doc.file_size)}
+                    </td>
+                    <td
+                      className={`py-3.5 px-6 font-mono ${
+                        isLight ? 'text-slate-900 font-semibold' : 'text-white'
+                      }`}
+                    >
+                      {doc.chunk_count}
+                    </td>
+                    <td className={`py-3.5 px-6 ${isLight ? 'text-slate-500' : 'text-[#AE7DAC]'}`}>
                       <span className="flex items-center gap-1.5">
                         <Calendar size={12} className="text-[#F1916D]" />
                         {doc.ingested_at ? new Date(doc.ingested_at).toLocaleDateString() : '—'}
@@ -364,14 +513,18 @@ export const DocumentManager: React.FC = () => {
                             setNewFilename(doc.filename);
                           }}
                           title="Rename"
-                          className="p-1.5 text-[#AE7DAC] hover:text-[#F1916D] hover:bg-[#03122F] rounded-lg border border-[#413B61] transition"
+                          className={`p-1.5 rounded-lg border transition ${
+                            isLight
+                              ? 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 border-slate-200'
+                              : 'text-[#AE7DAC] hover:text-[#F1916D] hover:bg-[#03122F] border-[#413B61]'
+                          }`}
                         >
                           <Edit2 size={14} />
                         </button>
                         <button
                           onClick={() => handleDelete(doc)}
                           title="Delete"
-                          className="p-1.5 text-[#AE7DAC] hover:text-red-400 hover:bg-red-950/20 rounded-lg border border-transparent hover:border-red-900/40 transition"
+                          className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
                         >
                           <Trash2 size={14} />
                         </button>
@@ -387,13 +540,21 @@ export const DocumentManager: React.FC = () => {
 
       {/* Rename Modal */}
       {renamingDoc && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#03122F]/85 backdrop-blur-sm p-4">
-          <div className="bg-[#19305C] border-2 border-[#413B61] rounded-2xl w-full max-w-md shadow-2xl p-6">
-            <h3 className="text-base font-semibold text-white mb-2 flex items-center gap-2">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div
+            className={`border-2 rounded-2xl w-full max-w-md shadow-2xl p-6 ${
+              isLight ? 'bg-white border-slate-200' : 'bg-[#19305C] border-[#413B61]'
+            }`}
+          >
+            <h3
+              className={`text-base font-semibold mb-2 flex items-center gap-2 ${
+                isLight ? 'text-slate-900' : 'text-white'
+              }`}
+            >
               <Edit2 size={16} className="text-[#F1916D]" />
               Rename Document
             </h3>
-            <p className="text-xs text-[#AE7DAC] mb-4">
+            <p className={`text-xs mb-4 ${isLight ? 'text-slate-500' : 'text-[#AE7DAC]'}`}>
               Updates document identifier and all citations.
             </p>
 
@@ -403,19 +564,25 @@ export const DocumentManager: React.FC = () => {
                 required
                 value={newFilename}
                 onChange={(e) => setNewFilename(e.target.value)}
-                className="w-full bg-[#03122F] border border-[#413B61] rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-[#F1916D] focus:ring-1 focus:ring-[#F1916D] transition"
+                className={`w-full rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:border-[#F1916D] focus:ring-1 focus:ring-[#F1916D] transition border ${
+                  isLight
+                    ? 'bg-slate-50 border-slate-300 text-slate-900'
+                    : 'bg-[#03122F] border-[#413B61] text-white'
+                }`}
               />
               <div className="flex justify-end gap-2 pt-2">
                 <button
                   type="button"
                   onClick={() => setRenamingDoc(null)}
-                  className="px-4 py-2 text-xs text-[#AE7DAC] hover:text-white transition"
+                  className={`px-4 py-2 text-xs transition ${
+                    isLight ? 'text-slate-600 hover:text-slate-900' : 'text-[#AE7DAC] hover:text-white'
+                  }`}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="bg-[#F1916D] hover:bg-[#F1916D]/90 text-[#03122F] font-bold px-4 py-2 rounded-xl text-xs transition shadow-sm flex items-center gap-1.5"
+                  className="bg-[#F1916D] hover:bg-[#F1916D]/90 text-white font-bold px-4 py-2 rounded-xl text-xs transition shadow-sm flex items-center gap-1.5"
                 >
                   <Check size={14} />
                   Save Changes
