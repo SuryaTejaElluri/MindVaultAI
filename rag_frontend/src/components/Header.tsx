@@ -30,104 +30,74 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
       <header
         className={`border-b sticky top-0 z-40 backdrop-blur-md transition-colors duration-200 ${
           isLight
-            ? 'border-slate-200 bg-white/95 text-slate-800 shadow-sm'
-            : 'border-[#413B61] bg-[#03122F]/95 text-[#F3DADF]'
+            ? 'bg-gradient-to-r from-[#111638] via-[#1E2452] to-[#111638] border-indigo-400/25 text-white shadow-md'
+            : 'bg-gradient-to-r from-[#0C102A] via-[#161B42] to-[#0C102A] border-indigo-500/20 text-white shadow-lg'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2">
           {/* Logo & Platform Name */}
-          <div className="flex items-center gap-8">
-            <div className="flex items-center gap-3">
-              <div
-                className={`h-9 w-9 rounded-xl border-2 flex items-center justify-center shadow-md transition-colors ${
-                  isLight
-                    ? 'bg-slate-100 border-slate-300'
-                    : 'bg-[#19305C] border-[#413B61]'
-                }`}
-              >
-                <Brain className="text-[#F1916D]" size={18} />
+          <div className="flex items-center gap-3 sm:gap-6 min-w-0">
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+              <div className="h-8 w-8 sm:h-9 sm:w-9 rounded-xl border-2 border-indigo-400/30 bg-indigo-500/20 flex items-center justify-center shadow-md text-indigo-400">
+                <Brain size={18} />
               </div>
-              <div className="flex items-center gap-2">
-                <span
-                  className={`font-bold text-base tracking-tight flex items-center gap-1 ${
-                    isLight ? 'text-slate-900' : 'text-white'
-                  }`}
-                >
-                  MindVault<span className="text-[#F1916D]">AI</span>
+              <div className="flex items-center gap-1.5">
+                <span className="font-bold text-sm sm:text-base tracking-tight text-white flex items-center">
+                  MindVault<span className="text-indigo-400 font-extrabold">AI</span>
                 </span>
-                <span
-                  className={`hidden sm:inline-flex items-center gap-1 text-[10px] font-semibold tracking-wider px-2 py-0.5 rounded-full border ${
-                    isLight
-                      ? 'bg-slate-100 text-slate-600 border-slate-200'
-                      : 'bg-[#19305C] text-[#AE7DAC] border-[#413B61]'
-                  }`}
-                >
-                  <Shield size={10} className="text-[#F1916D]" />
+                <span className="hidden md:inline-flex items-center gap-1 text-[10px] font-semibold tracking-wider px-2 py-0.5 rounded-full border border-indigo-500/30 bg-indigo-950/50 text-indigo-300">
+                  <Shield size={10} className="text-indigo-400" />
                   Encrypted Vault
                 </span>
               </div>
             </div>
 
-            {/* Navigation Tabs */}
+            {/* Navigation Tabs (Desktop) */}
             {isAuthenticated && (
-              <nav
-                className={`hidden sm:flex items-center gap-1.5 p-1 rounded-xl border ${
-                  isLight
-                    ? 'bg-slate-100 border-slate-200'
-                    : 'bg-[#19305C] border-[#413B61]'
-                }`}
-              >
+              <nav className="hidden sm:flex items-center gap-1 p-1 rounded-xl border border-indigo-500/25 bg-black/20">
                 <button
                   onClick={() => setActiveTab('chat')}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition ${
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
                     activeTab === 'chat'
-                      ? 'bg-[#F1916D] text-[#03122F] shadow-sm'
-                      : isLight
-                      ? 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                      : 'text-[#AE7DAC] hover:text-[#F3DADF] hover:bg-[#413B61]/40'
+                      ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-sm font-bold'
+                      : 'text-slate-300 hover:text-white hover:bg-white/10'
                   }`}
                 >
-                  <MessageSquare size={14} />
-                  <span>Chat & Query</span>
+                  <MessageSquare size={13} />
+                  <span>Chat</span>
                 </button>
                 <button
                   onClick={() => setActiveTab('documents')}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition ${
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
                     activeTab === 'documents'
-                      ? 'bg-[#F1916D] text-[#03122F] shadow-sm'
-                      : isLight
-                      ? 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                      : 'text-[#AE7DAC] hover:text-[#F3DADF] hover:bg-[#413B61]/40'
+                      ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-sm font-bold'
+                      : 'text-slate-300 hover:text-white hover:bg-white/10'
                   }`}
                 >
-                  <Files size={14} />
-                  <span>Documents Vault</span>
+                  <Files size={13} />
+                  <span>Documents</span>
                 </button>
               </nav>
             )}
           </div>
 
           {/* Right Action Bar */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}
               title={isLight ? 'Switch to Dark Theme' : 'Switch to White Theme'}
-              className={`p-2 rounded-xl border flex items-center gap-1.5 text-xs font-medium transition ${
-                isLight
-                  ? 'border-slate-300 bg-slate-100 text-slate-700 hover:bg-slate-200 shadow-sm'
-                  : 'border-[#413B61] bg-[#19305C] text-[#AE7DAC] hover:text-[#F1916D] hover:border-[#F1916D]'
-              }`}
+              className="px-2 sm:px-2.5 py-1.5 rounded-xl border border-indigo-500/30 bg-white/5 hover:bg-white/10 text-indigo-200 flex items-center gap-1 text-xs font-medium transition shadow-sm"
             >
               {isLight ? (
                 <>
-                  <Moon size={16} className="text-[#19305C]" />
-                  <span className="hidden sm:inline text-xs font-medium">Dark</span>
+                  <Moon size={14} className="text-amber-300" />
+                  <span className="hidden sm:inline">Dark</span>
                 </>
               ) : (
                 <>
-                  <Sun size={16} className="text-[#F1916D]" />
-                  <span className="hidden sm:inline text-xs font-medium text-[#F3DADF]">White</span>
+                  <Sun size={14} className="text-amber-400" />
+                  <span className="hidden sm:inline">White</span>
                 </>
               )}
             </button>
@@ -136,45 +106,23 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
             <button
               onClick={() => setIsConfigOpen(true)}
               title="Settings & Configuration"
-              className={`p-2 rounded-xl border transition ${
-                isLight
-                  ? 'border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-                  : 'border-[#413B61] text-[#AE7DAC] hover:text-[#F1916D] hover:bg-[#19305C]'
-              }`}
+              className="p-1.5 sm:p-2 rounded-xl border border-indigo-500/30 bg-white/5 hover:bg-white/10 text-indigo-200 transition"
             >
-              <Settings size={17} />
+              <Settings size={15} />
             </button>
 
             {isAuthenticated && (
-              <div
-                className={`flex items-center gap-3 pl-2 border-l ${
-                  isLight ? 'border-slate-200' : 'border-[#413B61]'
-                }`}
-              >
-                <div className="flex items-center gap-2.5">
-                  <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs uppercase shadow-sm border-2 ${
-                      isLight
-                        ? 'bg-slate-100 border-slate-300 text-slate-800'
-                        : 'bg-[#19305C] border-[#413B61] text-[#F1916D]'
-                    }`}
-                  >
-                    {user?.email ? user.email.charAt(0) : <UserIcon size={14} />}
+              <div className="flex items-center gap-1.5 sm:gap-2.5 pl-1.5 sm:pl-2 border-l border-indigo-500/25">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-bold text-xs uppercase shadow-sm border border-indigo-400/40 bg-indigo-500/20 text-indigo-300">
+                    {user?.email ? user.email.charAt(0) : <UserIcon size={13} />}
                   </div>
-                  <div className="hidden md:block text-left">
-                    <p
-                      className={`text-xs font-medium leading-tight ${
-                        isLight ? 'text-slate-800' : 'text-[#F3DADF]'
-                      }`}
-                    >
+                  <div className="hidden lg:block text-left">
+                    <p className="text-xs font-medium leading-tight text-white max-w-[120px] truncate">
                       {user?.email}
                     </p>
-                    <p
-                      className={`text-[10px] flex items-center gap-1 ${
-                        isLight ? 'text-slate-400' : 'text-[#AE7DAC]'
-                      }`}
-                    >
-                      <Sparkles size={9} className="text-[#F1916D]" /> Active Session
+                    <p className="text-[10px] flex items-center gap-1 text-indigo-300/80">
+                      <Sparkles size={8} className="text-indigo-400" /> Active Session
                     </p>
                   </div>
                 </div>
@@ -182,19 +130,43 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                 <button
                   onClick={logout}
                   title="Sign Out"
-                  className={`flex items-center gap-1.5 text-xs px-2.5 py-1.5 rounded-xl border transition ${
-                    isLight
-                      ? 'text-slate-600 hover:text-red-600 border-transparent hover:bg-red-50 hover:border-red-200'
-                      : 'text-[#AE7DAC] hover:text-[#F1916D] border-transparent hover:bg-red-950/20 hover:border-[#413B61]'
-                  }`}
+                  className="flex items-center gap-1 text-xs px-2 py-1.5 rounded-xl border border-transparent text-slate-300 hover:text-red-300 hover:bg-red-500/10 transition"
                 >
-                  <LogOut size={15} />
-                  <span className="hidden sm:inline">Sign Out</span>
+                  <LogOut size={14} />
+                  <span className="hidden md:inline">Sign Out</span>
                 </button>
               </div>
             )}
           </div>
         </div>
+
+        {/* Mobile Navigation Tabs Bar */}
+        {isAuthenticated && (
+          <div className="sm:hidden px-3 py-1.5 border-t border-indigo-500/20 bg-black/30 flex items-center justify-around gap-2">
+            <button
+              onClick={() => setActiveTab('chat')}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-semibold transition ${
+                activeTab === 'chat'
+                  ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-sm font-bold'
+                  : 'text-slate-300 hover:text-white'
+              }`}
+            >
+              <MessageSquare size={13} />
+              <span>Chat</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('documents')}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-semibold transition ${
+                activeTab === 'documents'
+                  ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-sm font-bold'
+                  : 'text-slate-300 hover:text-white'
+              }`}
+            >
+              <Files size={13} />
+              <span>Documents</span>
+            </button>
+          </div>
+        )}
       </header>
 
       <ConfigModal isOpen={isConfigOpen} onClose={() => setIsConfigOpen(false)} />

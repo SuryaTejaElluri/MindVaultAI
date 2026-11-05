@@ -7,13 +7,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        vault: {
-          midnight: '#03122F',
-          navy:     '#19305C',
-          slate:    '#413B61',
-          mauve:    '#AE7DAC',
-          blush:    '#F3DADF',
-          coral:    '#F1916D',
+        sapphire: {
+          50: '#EFF6FF',
+          100: '#DBEAFE',
+          200: '#BFDBFE',
+          300: '#93C5FD',
+          400: '#60A5FA',
+          500: '#3B82F6',
+          600: '#2563EB',
+          700: '#1D4ED8',
+          800: '#1E40AF',
+          900: '#1E3A8A',
         },
       },
     },

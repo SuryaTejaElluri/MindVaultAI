@@ -4,32 +4,31 @@
 
 @layer base {
   body {
-    @apply bg-vault-midnight text-vault-blush antialiased;
-    background-color: #03122F;
+    @apply antialiased transition-colors duration-200;
     -webkit-font-smoothing: antialiased;
   }
 }
 
 /* Custom scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #03122F;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #413B61;
+  background: #334155;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #AE7DAC;
+  background: #6366F1;
 }
 
 ::selection {
-  background: #F1916D;
-  color: #03122F;
+  background: #6366F1;
+  color: #ffffff;
 }
