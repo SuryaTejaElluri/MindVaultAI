@@ -35,12 +35,10 @@ export const AuthCard: React.FC = () => {
       setError('Please enter a valid email address.');
       return;
     }
-
     if (password.length < 6) {
       setError('Password must be at least 6 characters.');
       return;
     }
-
     if (mode === 'register' && password !== confirmPassword) {
       setError('Passwords do not match.');
       return;
@@ -61,228 +59,171 @@ export const AuthCard: React.FC = () => {
     }
   };
 
+  const cardBg = isLight
+    ? 'bg-white border-hairline shadow-ambient'
+    : 'bg-dark-raised border-[#38383E] shadow-card';
+
+  const tabBg = isLight ? 'bg-surface-raised border-hairline' : 'bg-dark-surface border-[#38383E]';
+
+  const activeTabCls = isLight
+    ? 'bg-white text-ink shadow-pill'
+    : 'bg-[#3A3A40] text-dark-ink shadow-pill';
+
+  const inactiveTabCls = isLight
+    ? 'text-muted hover:text-ink'
+    : 'text-dark-muted hover:text-dark-ink';
+
+  const textMain = isLight ? 'text-ink' : 'text-dark-ink';
+  const textMuted = isLight ? 'text-muted' : 'text-dark-muted';
+  const labelCls = `block text-[13px] mb-1 flex items-center gap-1.5 ${textMuted}`;
+
+  const inputCls = `w-full rounded-md pl-9 pr-3 py-2.5 text-[14px] transition focus:outline-none border ${
+    isLight
+      ? 'bg-surface border-hairline text-ink placeholder:text-muted focus:border-[#A1A1A1] focus:ring-1 focus:ring-[#A1A1A1]'
+      : 'bg-dark-surface border-[#38383E] text-dark-ink placeholder:text-dark-muted focus:border-[#6B6B70] focus:ring-1 focus:ring-[#6B6B70]'
+  }`;
+
   return (
-    <div
-      className={`w-full max-w-md mx-auto border rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-xl space-y-4 sm:space-y-6 transition-all ${
-        isLight
-          ? 'bg-white border-slate-200 shadow-slate-200/50'
-          : 'bg-[#1E293B] border-slate-700 shadow-[0_10px_35px_rgba(0,0,0,0.4)]'
-      }`}
-    >
-      {/* Tab Switcher */}
-      <div
-        className={`flex p-1 rounded-xl sm:rounded-2xl border ${
-          isLight ? 'bg-slate-100 border-slate-200' : 'bg-[#0F172A] border-slate-700'
-        }`}
-      >
+    <div className={`w-full max-w-md mx-auto border rounded-xl p-5 sm:p-7 space-y-5 transition-all ${cardBg}`}>
+
+      {/* Mode Toggle */}
+      <div className={`flex p-1 rounded-md border ${tabBg}`}>
         <button
           type="button"
-          onClick={() => {
-            setMode('login');
-            setError(null);
-          }}
-          className={`flex-1 flex items-center justify-center gap-1.5 py-2 sm:py-2.5 rounded-lg sm:rounded-xl text-xs font-semibold transition ${
-            mode === 'login'
-              ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-md font-bold'
-              : isLight
-              ? 'text-slate-600 hover:text-slate-900'
-              : 'text-slate-400 hover:text-white'
+          onClick={() => { setMode('login'); setError(null); }}
+          className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-md text-[13px] transition ${
+            mode === 'login' ? activeTabCls : inactiveTabCls
           }`}
         >
-          <LogIn size={14} />
+          <LogIn size={13} />
           Sign In
         </button>
         <button
           type="button"
-          onClick={() => {
-            setMode('register');
-            setError(null);
-          }}
-          className={`flex-1 flex items-center justify-center gap-1.5 py-2 sm:py-2.5 rounded-lg sm:rounded-xl text-xs font-semibold transition ${
-            mode === 'register'
-              ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-md font-bold'
-              : isLight
-              ? 'text-slate-600 hover:text-slate-900'
-              : 'text-slate-400 hover:text-white'
+          onClick={() => { setMode('register'); setError(null); }}
+          className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-md text-[13px] transition ${
+            mode === 'register' ? activeTabCls : inactiveTabCls
           }`}
         >
-          <UserPlus size={14} />
+          <UserPlus size={13} />
           Register
         </button>
       </div>
 
+      {/* Title */}
       <div className="text-left space-y-1">
-        <h2
-          className={`text-lg sm:text-xl font-bold tracking-tight flex items-center gap-2 ${
-            isLight ? 'text-slate-900' : 'text-white'
-          }`}
-        >
+        <h2 className={`font-fraunces text-[22px] leading-tight flex items-center gap-2 ${textMain}`}>
           {mode === 'login' ? (
-            <>
-              <KeyRound size={18} className={isLight ? 'text-indigo-600' : 'text-indigo-400'} />
-              Welcome Back
-            </>
+            <><KeyRound size={18} /> Welcome Back</>
           ) : (
-            <>
-              <Shield size={18} className={isLight ? 'text-indigo-600' : 'text-indigo-400'} />
-              Create Account
-            </>
+            <><Shield size={18} /> Create Account</>
           )}
         </h2>
-        <p className={`text-[11px] sm:text-xs ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
+        <p className={`text-[13px] ${textMuted}`}>
           {mode === 'login'
             ? 'Sign in to access your isolated knowledge vault.'
             : 'Register a new account. Your documents are strictly partitioned.'}
         </p>
       </div>
 
+      {/* Error */}
       {error && (
-        <div className="p-2.5 sm:p-3 bg-red-500/10 border border-red-500/20 text-red-500 rounded-xl text-xs flex items-center gap-2 text-left">
-          <AlertCircle size={15} className="shrink-0 text-red-500" />
+        <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-500 rounded-md text-[13px] flex items-center gap-2">
+          <AlertCircle size={14} className="shrink-0" />
           <span>{error}</span>
         </div>
       )}
 
+      {/* Success */}
       {successMessage && (
-        <div
-          className={`p-2.5 sm:p-3 rounded-xl text-xs flex items-center gap-2 text-left border ${
-            isLight
-              ? 'bg-indigo-50 border-indigo-200 text-indigo-900'
-              : 'bg-indigo-950/40 border-indigo-500/30 text-indigo-200'
-          }`}
-        >
-          <CheckCircle2 size={15} className="shrink-0 text-indigo-400" />
+        <div className={`p-3 rounded-md text-[13px] flex items-center gap-2 border ${
+          isLight
+            ? 'bg-[#EEF3FB] border-[#3563AD]/30 text-[#3563AD]'
+            : 'bg-[#1E2A3A] border-[#86A8E6]/30 text-[#86A8E6]'
+        }`}>
+          <CheckCircle2 size={14} className="shrink-0" />
           <span>{successMessage}</span>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-3.5 sm:space-y-4 text-left">
+      <form onSubmit={handleSubmit} className="space-y-4 text-left">
+        {/* Email */}
         <div>
-          <label
-            className={`block text-xs font-medium mb-1 flex items-center gap-1.5 ${
-              isLight ? 'text-slate-700' : 'text-slate-300'
-            }`}
-          >
-            <Mail size={12} className={isLight ? 'text-indigo-600' : 'text-indigo-400'} />
-            Email Address
+          <label className={labelCls}>
+            <Mail size={12} /> Email Address
           </label>
           <div className="relative">
-            <Mail
-              size={15}
-              className={`absolute left-3 top-1/2 -translate-y-1/2 ${
-                isLight ? 'text-slate-400' : 'text-slate-500'
-              }`}
-            />
+            <Mail size={14} className={`absolute left-3 top-1/2 -translate-y-1/2 ${textMuted}`} />
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className={`w-full rounded-xl pl-9 pr-3 py-2 sm:py-2.5 text-xs sm:text-sm transition focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 border ${
-                isLight
-                  ? 'bg-slate-50 border-slate-300 text-slate-900 placeholder:text-slate-400'
-                  : 'bg-[#0F172A] border-slate-700 text-slate-100 placeholder:text-slate-600'
-              }`}
+              className={inputCls}
             />
           </div>
         </div>
 
+        {/* Password */}
         <div>
-          <label
-            className={`block text-xs font-medium mb-1 flex items-center gap-1.5 ${
-              isLight ? 'text-slate-700' : 'text-slate-300'
-            }`}
-          >
-            <Lock size={12} className={isLight ? 'text-indigo-600' : 'text-indigo-400'} />
-            Password
+          <label className={labelCls}>
+            <Lock size={12} /> Password
           </label>
           <div className="relative">
-            <Lock
-              size={15}
-              className={`absolute left-3 top-1/2 -translate-y-1/2 ${
-                isLight ? 'text-slate-400' : 'text-slate-500'
-              }`}
-            />
+            <Lock size={14} className={`absolute left-3 top-1/2 -translate-y-1/2 ${textMuted}`} />
             <input
               type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className={`w-full rounded-xl pl-9 pr-3 py-2 sm:py-2.5 text-xs sm:text-sm transition focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 border ${
-                isLight
-                  ? 'bg-slate-50 border-slate-300 text-slate-900 placeholder:text-slate-400'
-                  : 'bg-[#0F172A] border-slate-700 text-slate-100 placeholder:text-slate-600'
-              }`}
+              className={inputCls}
             />
           </div>
           {mode === 'register' && (
-            <p
-              className={`text-[10px] sm:text-[11px] mt-1 flex items-center gap-1 ${
-                isLight ? 'text-slate-400' : 'text-slate-500'
-              }`}
-            >
-              <Shield size={10} className={isLight ? 'text-indigo-600' : 'text-indigo-400'} /> Minimum 6 characters
+            <p className={`text-[11px] mt-1 flex items-center gap-1 ${textMuted}`}>
+              <Shield size={10} /> Minimum 6 characters
             </p>
           )}
         </div>
 
+        {/* Confirm Password */}
         {mode === 'register' && (
           <div>
-            <label
-              className={`block text-xs font-medium mb-1 flex items-center gap-1.5 ${
-                isLight ? 'text-slate-700' : 'text-slate-300'
-              }`}
-            >
-              <Lock size={12} className={isLight ? 'text-indigo-600' : 'text-indigo-400'} />
-              Confirm Password
+            <label className={labelCls}>
+              <Lock size={12} /> Confirm Password
             </label>
             <div className="relative">
-              <Lock
-                size={15}
-                className={`absolute left-3 top-1/2 -translate-y-1/2 ${
-                  isLight ? 'text-slate-400' : 'text-slate-500'
-                }`}
-              />
+              <Lock size={14} className={`absolute left-3 top-1/2 -translate-y-1/2 ${textMuted}`} />
               <input
                 type="password"
                 required
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="••••••••"
-                className={`w-full rounded-xl pl-9 pr-3 py-2 sm:py-2.5 text-xs sm:text-sm transition focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 border ${
-                  isLight
-                    ? 'bg-slate-50 border-slate-300 text-slate-900 placeholder:text-slate-400'
-                    : 'bg-[#0F172A] border-slate-700 text-slate-100 placeholder:text-slate-600'
-                }`}
+                className={inputCls}
               />
             </div>
           </div>
         )}
 
+        {/* Submit */}
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 disabled:opacity-50 text-white py-2.5 sm:py-3 px-4 rounded-xl text-xs sm:text-sm font-bold transition shadow-lg shadow-indigo-500/25 mt-2"
+          className={`w-full flex items-center justify-center gap-2 h-[46px] px-6 rounded-md text-[15px] transition disabled:opacity-50 mt-2 ${
+            isLight
+              ? 'bg-ink text-white hover:opacity-85'
+              : 'bg-dark-ink text-dark-surface hover:opacity-85'
+          }`}
         >
           {isLoading ? (
-            <>
-              <Loader2 size={15} className="animate-spin text-white" />
-              {mode === 'login' ? 'Signing in...' : 'Registering...'}
-            </>
+            <><Loader2 size={15} className="animate-spin" />{mode === 'login' ? 'Signing in...' : 'Registering...'}</>
           ) : mode === 'login' ? (
-            <>
-              <LogIn size={15} />
-              Sign In
-              <ArrowRight size={13} className="ml-1 opacity-75" />
-            </>
+            <><LogIn size={15} /> Sign In <ArrowRight size={13} className="ml-1 opacity-60" /></>
           ) : (
-            <>
-              <UserPlus size={15} />
-              Create Account
-              <ArrowRight size={13} className="ml-1 opacity-75" />
-            </>
+            <><UserPlus size={15} /> Create Account <ArrowRight size={13} className="ml-1 opacity-60" /></>
           )}
         </button>
       </form>
